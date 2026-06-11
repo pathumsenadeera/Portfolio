@@ -1,18 +1,18 @@
 'use client';
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 import Image from 'next/image';
-import { FiArrowRight, FiInstagram, FiBehance, FiLinkedin } from 'react-icons/fi';
+import { FiArrowRight, FiInstagram, FiLinkedin } from 'react-icons/fi';
 import { SiBehance } from 'react-icons/si';
 import styles from './HeroSection.module.css';
 
-const floatVariant = {
+const floatVariant: Variants = {
   animate: {
     y: [-12, 12, -12],
     transition: { duration: 4, repeat: Infinity, ease: 'easeInOut' },
   },
 };
 
-const glowPulse = {
+const glowPulse: Variants = {
   animate: {
     opacity: [0.4, 0.8, 0.4],
     scale: [1, 1.05, 1],
