@@ -14,7 +14,7 @@ const floatVariant: Variants = {
 
 const glowPulse: Variants = {
   animate: {
-    opacity: [0.4, 0.8, 0.4],
+    opacity: [0.4, 0.7, 0.4],
     scale: [1, 1.05, 1],
     transition: { duration: 3, repeat: Infinity, ease: 'easeInOut' },
   },
@@ -23,27 +23,48 @@ const glowPulse: Variants = {
 export default function HeroSection() {
   return (
     <section className={styles.hero} id="home">
+      {/* ─── BACKGROUND LAYERS ─── */}
       <div className="grid-overlay" />
 
-      {/* LEFT SIDE */}
-      <div className={styles.left}>
-        {/* Floating barcode label */}
-        <motion.div
-          className={styles.barcodeTag}
-          initial={{ opacity: 0, x: -30 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 1.2, duration: 0.6 }}
-        >
-          <span className={styles.barcodeLines}>
-            {Array.from({ length: 20 }).map((_, i) => (
-              <span key={i} className={styles.barLine} style={{ height: `${Math.random() * 16 + 8}px` }} />
-            ))}
-          </span>
-          <span className={styles.barcodeText}>CREATIVE.STUDIO.2025</span>
-        </motion.div>
+      {/* Large watermark letter */}
+      <div className={styles.watermarkLetter}>P</div>
 
-        {/* Main content */}
-        <div className={styles.leftContent}>
+      {/* Neon light beams from top */}
+      <div className={styles.lightBeamContainer}>
+        <div className={`${styles.lightBeam} ${styles.beam1}`} />
+        <div className={`${styles.lightBeam} ${styles.beam2}`} />
+        <div className={`${styles.lightBeam} ${styles.beam3}`} />
+      </div>
+
+      {/* Central glow aura */}
+      <motion.div
+        className={styles.centralGlow}
+        variants={glowPulse}
+        animate="animate"
+      />
+
+      {/* Vignette */}
+      <div className={styles.vignette} />
+
+      {/* ─── CONTENT ─── */}
+      <div className={styles.content}>
+        {/* LEFT COLUMN — Text + Cube */}
+        <div className={styles.leftCol}>
+          {/* Barcode decoration */}
+          <motion.div
+            className={styles.barcodeTag}
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 1.2, duration: 0.6 }}
+          >
+            <span className={styles.barcodeLines}>
+              {[12, 21, 9, 18, 24, 11, 15, 20, 8, 14, 22, 10, 19, 13, 23, 16, 9, 17, 21, 14].map((h, i) => (
+                <span key={i} className={styles.barLine} style={{ height: `${h}px` }} />
+              ))}
+            </span>
+            <span className={styles.barcodeText}>CREATIVE.STUDIO.2025</span>
+          </motion.div>
+
           <motion.div
             className="section-tag"
             initial={{ opacity: 0, x: -20 }}
@@ -60,13 +81,15 @@ export default function HeroSection() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             >
-              CREATIVE
-              <br />
-              <span className={`${styles.titleNeon} neon-text neon-glow`}>DESIGNER</span>
-              <br />
-              &amp; VISUAL
-              <br />
-              ARTIST
+              <div>CREATIVE</div>
+              <div className={styles.designerRow}>
+                <div className={styles.inlineCubeContainer}>
+                  <GlassCube />
+                </div>
+                <span className={`${styles.titleNeon} neon-text neon-glow`}>DESIGNER</span>
+              </div>
+              <div>&amp; VISUAL</div>
+              <div>ARTIST</div>
             </motion.h1>
           </div>
 
@@ -115,115 +138,77 @@ export default function HeroSection() {
           </motion.div>
         </div>
 
-        {/* Floating featured work card */}
-        <motion.div
-          className={styles.featuredCard}
-          variants={floatVariant}
-          animate="animate"
-          initial={{ opacity: 0, scale: 0.8 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 1.3, duration: 0.6 }}
-        >
-          <div className={styles.featuredCardInner}>
-            <div className={styles.featuredGlow} />
-            <div className={styles.featuredGrid}>
-              <span className={styles.featuredLabel}>FEATURED</span>
-              <div className={styles.featuredBox}>
-                <span className={styles.featuredQuestion}>?</span>
-              </div>
-              <span className={styles.featuredSub}>LATEST WORK</span>
+        {/* RIGHT COLUMN — Portrait */}
+        <div className={styles.rightCol}>
+          {/* Cross decorations */}
+          <div className={styles.crossTopRight} />
+
+          {/* Portrait */}
+          <motion.div
+            className={styles.portraitWrap}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.5, duration: 1, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <Image
+              src="/images/portrait.png"
+              alt="Pathum"
+              fill
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              priority
+              className={styles.portraitImg}
+            />
+            <div className={styles.greenTint} />
+          </motion.div>
+
+          {/* Floating labels */}
+          <motion.div
+            className={`${styles.floatLabel} ${styles.floatLabel1}`}
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 1.2, duration: 0.5 }}
+          >
+            <span className={styles.floatDot} />
+            Brand Identity Expert
+          </motion.div>
+
+          <motion.div
+            className={`${styles.floatLabel} ${styles.floatLabel2}`}
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 1.4, duration: 0.5 }}
+          >
+            <span className={styles.floatDot} />
+            Visual Storyteller
+          </motion.div>
+
+          {/* Year badge */}
+          <motion.div
+            className={styles.yearBadge}
+            initial={{ opacity: 0, rotate: -10 }}
+            animate={{ opacity: 1, rotate: 0 }}
+            transition={{ delay: 1.5, duration: 0.5 }}
+          >
+            <span>EST.</span>
+            <span className={styles.yearNum}>2020</span>
+          </motion.div>
+
+          {/* NAME BELOW PORTRAIT */}
+          <motion.div
+            className={styles.portraitNameBar}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8, duration: 0.8 }}
+          >
+            <div className={styles.nameInner}>
+              <span className={styles.nameTitle}>PATHUM</span>
+              <span className={styles.nameSubtitle}>SENADEERA</span>
             </div>
-            <span className={styles.featuredTag}>LUCKY DRAW</span>
-          </div>
-        </motion.div>
-
-        {/* Stats */}
-        <motion.div
-          className={styles.stats}
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.0, duration: 0.6 }}
-        >
-          {[
-            { num: '5+', label: 'Years Exp.' },
-            { num: '120+', label: 'Projects' },
-            { num: '80+', label: 'Clients' },
-          ].map((s) => (
-            <div key={s.label} className={styles.stat}>
-              <span className={`${styles.statNum} neon-text`}>{s.num}</span>
-              <span className={styles.statLabel}>{s.label}</span>
+            <div className={styles.nameRoleRow}>
+              <span className={styles.nameRole}>CREATIVE DIRECTOR</span>
             </div>
-          ))}
-        </motion.div>
-      </div>
-
-      {/* RIGHT SIDE — Portrait */}
-      <div className={styles.right}>
-        {/* Background glow */}
-        <motion.div
-          className={styles.portraitGlow}
-          variants={glowPulse}
-          animate="animate"
-        />
-
-        {/* Cross/X graphic decoration */}
-        <div className={styles.crossTopLeft} />
-        <div className={styles.crossTopRight} />
-        <div className={styles.crossBotLeft} />
-
-        {/* Portrait Image */}
-        <motion.div
-          className={styles.portraitWrap}
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.5, duration: 1, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <Image src="/images/portrait.png" alt="Pathum" fill className={styles.portraitImg} />
-        </motion.div>
-
-        {/* Name overlay at bottom */}
-        <motion.div
-          className={styles.portraitName}
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8, duration: 0.8 }}
-        >
-          <span className={styles.portraitTitle}>PATHUM</span>
-          <span className={styles.portraitSubtitle}>SENADEERA</span>
-          <span className={styles.portraitRole}>CREATIVE DIRECTOR</span>
-        </motion.div>
-
-        {/* Floating info labels */}
-        <motion.div
-          className={`${styles.floatLabel} ${styles.floatLabel1}`}
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 1.2, duration: 0.5 }}
-        >
-          <span className={styles.floatDot} />
-          Brand Identity Expert
-        </motion.div>
-
-        <motion.div
-          className={`${styles.floatLabel} ${styles.floatLabel2}`}
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 1.4, duration: 0.5 }}
-        >
-          <span className={styles.floatDot} />
-          Visual Storyteller
-        </motion.div>
-
-        {/* Year badge */}
-        <motion.div
-          className={styles.yearBadge}
-          initial={{ opacity: 0, rotate: -10 }}
-          animate={{ opacity: 1, rotate: 0 }}
-          transition={{ delay: 1.5, duration: 0.5 }}
-        >
-          <span>EST.</span>
-          <span className={styles.yearNum}>2020</span>
-        </motion.div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );
