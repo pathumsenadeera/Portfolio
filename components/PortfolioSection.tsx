@@ -1,8 +1,11 @@
 'use client';
 import { motion, useInView } from 'framer-motion';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect, useCallback } from 'react';
 import { FiArrowRight, FiArrowLeft } from 'react-icons/fi';
 import styles from './PortfolioSection.module.css';
+
+const AUTO_INTERVAL = 3000;  // ms between auto-advances
+const PAUSE_AFTER_MANUAL = 5000; // ms to pause after user interaction
 
 const projects = [
   {
@@ -107,10 +110,71 @@ const features = [
 export default function PortfolioSection() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-80px' });
-  const [activeIndex, setActiveIndex] = useState(3); // start at center
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const [progress, setProgress] = useState(0); // 0-100 for progress ring
+  const pauseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const autoRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const progressRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  const prev = () => setActiveIndex(i => Math.max(0, i - 1));
-  const next = () => setActiveIndex(i => Math.min(projects.length - 1, i + 1));
+  // Clear all timers helper
+  const clearAllTimers = useCallback(() => {
+    if (autoRef.current) clearInterval(autoRef.current);
+    if (progressRef.current) clearInterval(progressRef.current);
+    if (pauseTimerRef.current) clearTimeout(pauseTimerRef.current);
+  }, []);
+
+  // Start auto-scroll + progress tick
+  const startAuto = useCallback(() => {
+    clearAllTimers();
+    setProgress(0);
+
+    const tickMs = 50;
+    progressRef.current = setInterval(() => {
+      setProgress(p => {
+        const next = p + (tickMs / AUTO_INTERVAL) * 100;
+        return next >= 100 ? 100 : next;
+      });
+    }, tickMs);
+
+    autoRef.current = setInterval(() => {
+      setActiveIndex(i => (i + 1) % projects.length);
+      setProgress(0);
+    }, AUTO_INTERVAL);
+  }, [clearAllTimers]);
+
+  // Pause and resume after PAUSE_AFTER_MANUAL ms
+  const handleManualInteraction = useCallback(() => {
+    setIsPaused(true);
+    clearAllTimers();
+    setProgress(0);
+    pauseTimerRef.current = setTimeout(() => {
+      setIsPaused(false);
+    }, PAUSE_AFTER_MANUAL);
+  }, [clearAllTimers]);
+
+  // Start auto-scroll once section is in view
+  useEffect(() => {
+    if (inView && !isPaused) {
+      startAuto();
+    } else if (isPaused) {
+      clearAllTimers();
+    }
+    return clearAllTimers;
+  }, [inView, isPaused, startAuto, clearAllTimers]);
+
+  const prev = () => {
+    handleManualInteraction();
+    setActiveIndex(i => (i - 1 + projects.length) % projects.length);
+  };
+  const next = () => {
+    handleManualInteraction();
+    setActiveIndex(i => (i + 1) % projects.length);
+  };
+  const goTo = (i: number) => {
+    handleManualInteraction();
+    setActiveIndex(i);
+  };
 
   return (
     <section className={`${styles.portfolio} section`} id="work" ref={ref}>
@@ -169,7 +233,7 @@ export default function PortfolioSection() {
                   key={project.id}
                   className={`${styles.fanCard} ${isActive ? styles.fanCardActive : ''}`}
                   style={style}
-                  onClick={() => setActiveIndex(i)}
+                  onClick={() => goTo(i)}
                 >
                   {/* Card visual */}
                   <div
@@ -243,29 +307,49 @@ export default function PortfolioSection() {
             <button
               className={styles.navBtn}
               onClick={prev}
-              disabled={activeIndex === 0}
               aria-label="Previous project"
             >
               <FiArrowLeft />
             </button>
+
+            {/* Dot indicators with auto-scroll progress ring */}
             <div className={styles.dots}>
               {projects.map((_, i) => (
                 <button
                   key={i}
                   className={`${styles.dot} ${i === activeIndex ? styles.dotActive : ''}`}
-                  onClick={() => setActiveIndex(i)}
+                  onClick={() => goTo(i)}
                   aria-label={`Go to project ${i + 1}`}
                 />
               ))}
             </div>
+
             <button
               className={styles.navBtn}
               onClick={next}
-              disabled={activeIndex === projects.length - 1}
               aria-label="Next project"
             >
               <FiArrowRight />
             </button>
+
+            {/* Auto-scroll progress ring */}
+            <div className={styles.progressRing} title={isPaused ? 'Paused — resumes automatically' : 'Auto-scrolling'}>
+              <svg width="32" height="32" viewBox="0 0 32 32">
+                <circle cx="16" cy="16" r="13" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="2" />
+                <circle
+                  cx="16" cy="16" r="13"
+                  fill="none"
+                  stroke={isPaused ? 'rgba(170,255,0,0.3)' : 'var(--neon)'}
+                  strokeWidth="2"
+                  strokeDasharray={`${2 * Math.PI * 13}`}
+                  strokeDashoffset={`${2 * Math.PI * 13 * (1 - progress / 100)}`}
+                  strokeLinecap="round"
+                  transform="rotate(-90 16 16)"
+                  style={{ transition: 'stroke-dashoffset 0.05s linear, stroke 0.3s ease' }}
+                />
+              </svg>
+              <span className={styles.progressIcon}>{isPaused ? '⏸' : '▶'}</span>
+            </div>
           </div>
         </motion.div>
 
