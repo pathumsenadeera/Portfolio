@@ -10,9 +10,10 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 80px;
-  align-items: start;
+  align-items: center;
 }
 
+/* ─── LEFT COLUMN ─── */
 .leftCol {
   display: flex;
   flex-direction: column;
@@ -59,183 +60,86 @@
   box-shadow: 0 0 12px var(--neon-glow);
 }
 
-/* Right column */
+/* ─── RIGHT COLUMN — BALLOON ARENA ─── */
 .rightCol {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-.profileCard {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  padding: 32px;
-  display: flex;
-  flex-direction: column;
-  gap: 28px;
-  transition: var(--transition);
-}
-
-.profileCard:hover {
-  border-color: var(--border-neon);
-  box-shadow: 0 0 40px var(--neon-glow);
-}
-
-.profileCardTop {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-.profileAvatar {
-  position: relative;
-  width: 64px;
-  height: 64px;
-  background: linear-gradient(135deg, var(--neon) 0%, var(--neon-dim) 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-display);
-  font-size: 32px;
-  color: var(--bg-primary);
-  flex-shrink: 0;
+  min-height: 420px;
 }
 
-.avatarGlow {
+.balloonArena {
+  position: relative;
+  width: 100%;
+  height: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.balloonLabel {
   position: absolute;
-  inset: -4px;
-  background: var(--neon);
-  opacity: 0.15;
-  filter: blur(8px);
-  z-index: -1;
-}
-
-.profileName {
-  font-family: var(--font-body);
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--white);
-}
-
-.profileRole {
-  font-family: var(--font-ui);
-  font-size: 12px;
-  letter-spacing: 2px;
-  color: var(--gray);
-  text-transform: uppercase;
-  margin-top: 2px;
-}
-
-.profileBadge {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-family: var(--font-ui);
-  font-size: 11px;
-  color: var(--neon);
-  margin-top: 8px;
-}
-
-.badgeDot {
-  width: 6px;
-  height: 6px;
-  background: var(--neon);
-  border-radius: 50%;
-  box-shadow: 0 0 8px var(--neon);
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.5; transform: scale(0.8); }
-}
-
-.profileStats {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  border-top: 1px solid var(--border);
-  padding-top: 20px;
-}
-
-.profileStat {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
-}
-
-.profileStatNum {
-  font-family: var(--font-display);
-  font-size: 28px;
-  line-height: 1;
-}
-
-.profileStatLabel {
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
   font-family: var(--font-ui);
   font-size: 10px;
-  letter-spacing: 2px;
+  letter-spacing: 3px;
   text-transform: uppercase;
-  color: var(--gray);
+  color: rgba(255, 255, 255, 0.18);
+  pointer-events: none;
+  white-space: nowrap;
 }
 
-/* Tools card */
-.toolsCard {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  padding: 32px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.toolsTitle {
-  margin-bottom: 4px;
-}
-
-.toolItem {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.toolHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.toolName {
+.balloonHint {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
   font-family: var(--font-ui);
-  font-size: 12px;
-  letter-spacing: 1px;
+  font-size: 10px;
+  letter-spacing: 3px;
   text-transform: uppercase;
-  color: var(--white);
+  color: rgba(255, 255, 255, 0.15);
+  pointer-events: none;
+  white-space: nowrap;
 }
 
-.toolLevel {
-  font-family: var(--font-display);
-  font-size: 16px;
-  color: var(--neon);
+.balloonTag {
+  position: absolute;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 10px 22px;
+  border-radius: 100px;
+  border: 1px solid;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  cursor: grab;
+  user-select: none;
+  white-space: nowrap;
+  transition: background 0.2s ease;
+  z-index: 10;
 }
 
-.toolBar {
-  height: 2px;
-  background: var(--border);
-  overflow: hidden;
+.balloonTag:hover {
+  background: rgba(0, 0, 0, 0.65);
 }
 
-.toolFill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--neon-dim), var(--neon));
-  box-shadow: 0 0 8px var(--neon-glow-strong);
-}
-
+/* ─── RESPONSIVE ─── */
 @media (max-width: 1024px) {
   .container {
     grid-template-columns: 1fr;
-    gap: 48px;
+    gap: 60px;
     padding: 0 32px;
+  }
+  .rightCol {
+    min-height: 340px;
+  }
+  .balloonArena {
+    height: 340px;
   }
 }
 
@@ -246,7 +150,11 @@
   .container {
     padding: 0 20px;
   }
-  .profileStats {
-    grid-template-columns: repeat(2, 1fr);
+  .balloonArena {
+    height: 300px;
+  }
+  .balloonTag {
+    font-size: 11px;
+    padding: 8px 16px;
   }
 }
