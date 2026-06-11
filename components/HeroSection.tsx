@@ -178,15 +178,7 @@ export default function HeroSection() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.5, duration: 1, ease: [0.22, 1, 0.36, 1] }}
         >
-          <div className={styles.portraitPlaceholder}>
-            <div className={styles.portraitSilhouette}>
-              <div className={styles.silhouetteHead} />
-              <div className={styles.silhouetteBody} />
-            </div>
-            <span className={styles.uploadHint}>Your portrait will appear here</span>
-          </div>
-          {/* Once portrait image is provided, replace above with:
-          <Image src="/images/portrait.jpg" alt="Pathum" fill className={styles.portraitImg} /> */}
+          <Image src="/images/portrait.png" alt="Pathum" fill className={styles.portraitImg} />
         </motion.div>
 
         {/* Name overlay at bottom */}
