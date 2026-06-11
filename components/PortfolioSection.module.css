@@ -62,8 +62,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 40px;
-  padding: 40px 0;
+  gap: 20px;
+  padding: 16px 0;
   /* overflow: hidden; -- remove so cards overflow nicely */
 }
 
@@ -85,7 +85,7 @@
 /* ─── FAN TRACK ─── */
 .fanTrack {
   position: relative;
-  height: 420px;
+  height: 440px;
   width: 100%;
   display: flex;
   align-items: center;
@@ -96,8 +96,8 @@
 /* ─── INDIVIDUAL CARD ─── */
 .fanCard {
   position: absolute;
-  width: 220px;
-  height: 320px;
+  width: 280px;
+  height: 400px;
   cursor: pointer;
   transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
               opacity 0.4s ease;
@@ -253,6 +253,26 @@
   z-index: 10;
 }
 
+/* Progress ring container */
+.progressRing {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: default;
+  margin-left: 4px;
+}
+
+.progressIcon {
+  position: absolute;
+  font-size: 8px;
+  color: var(--neon);
+  line-height: 1;
+  user-select: none;
+}
+
 .navBtn {
   width: 44px;
   height: 44px;
@@ -397,11 +417,11 @@
     padding: 0 20px;
   }
   .fanTrack {
-    height: 300px;
+    height: 380px;
   }
   .fanCard {
-    width: 160px;
-    height: 240px;
+    width: 200px;
+    height: 300px;
   }
   .fanCard {
     /* reduce spread on mobile */
