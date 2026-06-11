@@ -4,16 +4,17 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { Float } from '@react-three/drei';
 import * as THREE from 'three';
 
-import { Text, MeshTransmissionMaterial, Environment } from '@react-three/drei';
+import { Text, MeshTransmissionMaterial, Environment, RoundedBox } from '@react-three/drei';
 
 function NeonEdges({ size = 2.2 }: { size?: number }) {
   const ref = useRef<THREE.Group>(null);
 
-  useFrame((state) => {
+  useFrame((state, delta) => {
     if (ref.current) {
-      ref.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.3) * 0.3 + 0.5;
+      const t = performance.now() / 1000;
+      ref.current.rotation.x = Math.sin(t * 0.3) * 0.3 + 0.5;
       ref.current.rotation.y += 0.006;
-      ref.current.rotation.z = Math.cos(state.clock.elapsedTime * 0.2) * 0.15;
+      ref.current.rotation.z = Math.cos(t * 0.2) * 0.15;
     }
   });
 
@@ -39,39 +40,34 @@ function NeonEdges({ size = 2.2 }: { size?: number }) {
   ], []);
 
   return (
-    <Float speed={1.5} rotationIntensity={0.15} floatIntensity={0.6}>
+    <Float speed={2} rotationIntensity={0.2} floatIntensity={0.8}>
       <group ref={ref}>
-        {/* Outer neon edges */}
+        {/* Outer neon edges (optional, keeping faint for structure) */}
         <lineSegments geometry={edgesGeo}>
-          <lineBasicMaterial color="#aaff00" transparent opacity={0.85} />
+          <lineBasicMaterial color="#aaff00" transparent opacity={0.3} />
         </lineSegments>
 
-        {/* Inner ghost edges */}
-        <lineSegments geometry={innerEdgesGeo}>
-          <lineBasicMaterial color="#aaff00" transparent opacity={0.2} />
-        </lineSegments>
-
-        {/* Glass faces — Realistic Transmission */}
-        <mesh>
-          <boxGeometry args={[size, size, size]} />
+        {/* Liquid Glass faces */}
+        <RoundedBox args={[size, size, size]} radius={0.3} smoothness={8}>
           <MeshTransmissionMaterial
             backside
-            samples={4}
-            thickness={0.5}
-            chromaticAberration={0.05}
-            anisotropy={0.3}
-            distortion={0.1}
-            distortionScale={0.3}
-            temporalDistortion={0.1}
+            samples={6}
+            thickness={2}
+            chromaticAberration={0.15}
+            anisotropy={0.2}
+            distortion={0.5}
+            distortionScale={0.5}
+            temporalDistortion={0.2}
             iridescence={1}
-            iridescenceIOR={1.2}
-            color="#ccffcc"
-            transmission={0.95}
-            roughness={0.05}
+            iridescenceIOR={1.3}
+            color="#e6ffe6"
+            transmission={1}
+            roughness={0}
             ior={1.5}
             transparent
+            envMapIntensity={2}
           />
-        </mesh>
+        </RoundedBox>
 
         {/* Neon green spheres inside */}
         {spheres.map((s, i) => (

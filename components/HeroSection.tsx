@@ -4,6 +4,9 @@ import Image from 'next/image';
 import { FiArrowRight, FiInstagram, FiLinkedin } from 'react-icons/fi';
 import { SiBehance } from 'react-icons/si';
 import styles from './HeroSection.module.css';
+import dynamic from 'next/dynamic';
+
+const GlassCube = dynamic(() => import('./GlassCube'), { ssr: false });
 
 const floatVariant: Variants = {
   animate: {
@@ -75,7 +78,9 @@ export default function HeroSection() {
           </motion.div>
 
           <div className={styles.titleWrap}>
-            <motion.h1
+            <motion.div
+              role="heading"
+              aria-level={1}
               className={styles.title}
               initial={{ opacity: 0, y: 60 }}
               animate={{ opacity: 1, y: 0 }}
@@ -90,7 +95,7 @@ export default function HeroSection() {
               </div>
               <div>&amp; VISUAL</div>
               <div>ARTIST</div>
-            </motion.h1>
+            </motion.div>
           </div>
 
           <motion.p
