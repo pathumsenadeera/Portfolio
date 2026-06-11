@@ -4,23 +4,49 @@ import { useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
 import { FiMail, FiPhone, FiMapPin, FiSend, FiInstagram, FiLinkedin } from 'react-icons/fi';
 import { SiBehance } from 'react-icons/si';
+import emailjs from '@emailjs/browser';
 import styles from './ContactSection.module.css';
+
+const SERVICE_ID  = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!;
+const TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!;
+const PUBLIC_KEY  = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
 
 export default function ContactSection() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-80px' });
   const [formData, setFormData] = useState({ name: '', email: '', project: '', message: '' });
-  const [sent, setSent] = useState(false);
+  const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
+  const [errorMsg, setErrorMsg] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSent(true);
-    setTimeout(() => setSent(false), 4000);
-    setFormData({ name: '', email: '', project: '', message: '' });
+    setStatus('sending');
+    setErrorMsg('');
+
+    try {
+      await emailjs.send(
+        SERVICE_ID,
+        TEMPLATE_ID,
+        {
+          from_name:    formData.name,
+          reply_to:     formData.email,
+          project_type: formData.project,
+          message:      formData.message,
+        },
+        PUBLIC_KEY,
+      );
+      setStatus('sent');
+      setFormData({ name: '', email: '', project: '', message: '' });
+      // Auto-reset so the form can be reused after 5 s
+      setTimeout(() => setStatus('idle'), 5000);
+    } catch (err: unknown) {
+      setStatus('error');
+      setErrorMsg(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
+    }
   };
 
   return (
@@ -117,7 +143,7 @@ export default function ContactSection() {
           animate={inView ? { opacity: 1, x: 0 } : {}}
           transition={{ delay: 0.2, duration: 0.7 }}
         >
-          {sent ? (
+          {status === 'sent' ? (
             <div className={styles.successMsg}>
               <div className={styles.successIcon}>✓</div>
               <h3>Message Sent!</h3>
@@ -136,6 +162,7 @@ export default function ContactSection() {
                     className={styles.input}
                     placeholder="John Doe"
                     required
+                    disabled={status === 'sending'}
                   />
                 </div>
                 <div className={styles.field}>
@@ -148,6 +175,7 @@ export default function ContactSection() {
                     className={styles.input}
                     placeholder="john@example.com"
                     required
+                    disabled={status === 'sending'}
                   />
                 </div>
               </div>
@@ -159,10 +187,11 @@ export default function ContactSection() {
                   onChange={handleChange}
                   className={styles.select}
                   required
+                  disabled={status === 'sending'}
                 >
                   <option value="">Select a service</option>
                   <option value="brand">Brand Identity</option>
-                  <option value="print">Print & Editorial</option>
+                  <option value="print">Print &amp; Editorial</option>
                   <option value="motion">Motion Graphics</option>
                   <option value="digital">Digital Design</option>
                   <option value="other">Other</option>
@@ -178,10 +207,27 @@ export default function ContactSection() {
                   placeholder="Describe your project, goals, and timeline..."
                   rows={5}
                   required
+                  disabled={status === 'sending'}
                 />
               </div>
-              <button type="submit" className={`btn-primary ${styles.submitBtn}`}>
-                Send Message <FiSend />
+
+              {/* Error message */}
+              {status === 'error' && (
+                <p className={styles.errorMsg}>⚠ {errorMsg}</p>
+              )}
+
+              <button
+                type="submit"
+                className={`btn-primary ${styles.submitBtn}`}
+                disabled={status === 'sending'}
+              >
+                {status === 'sending' ? (
+                  <>
+                    <span className={styles.spinner} /> Sending…
+                  </>
+                ) : (
+                  <>Send Message <FiSend /></>
+                )}
               </button>
             </form>
           )}

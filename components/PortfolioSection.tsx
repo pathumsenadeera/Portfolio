@@ -92,20 +92,6 @@ function getCardTransform(index: number, total: number, active: number) {
   };
 }
 
-const features = [
-  {
-    title: 'Brand Identity Design',
-    desc: 'Complete visual systems that define and elevate brands across all touchpoints.',
-  },
-  {
-    title: 'Cinematic Visuals',
-    desc: 'Dramatic, high-impact compositions that command attention and spark emotion.',
-  },
-  {
-    title: 'Motion & Animation',
-    desc: 'Dynamic motion graphics that bring brands to life with precision and energy.',
-  },
-];
 
 export default function PortfolioSection() {
   const ref = useRef(null);
@@ -352,41 +338,11 @@ export default function PortfolioSection() {
             </div>
           </div>
         </motion.div>
-
-        {/* Features strip */}
-        <motion.div
-          className={styles.features}
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.6, duration: 0.6 }}
-        >
-          {features.map((f, i) => (
-            <div key={i} className={styles.featureItem}>
-              <span className={styles.featureNum}>0{i + 1}</span>
-              <h4 className={styles.featureTitle}>{f.title}</h4>
-              <p className={styles.featureDesc}>{f.desc}</p>
-            </div>
-          ))}
-        </motion.div>
-
-        {/* CTA */}
-        <motion.div
-          className={styles.ctaRow}
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ delay: 0.8, duration: 0.5 }}
-        >
-          <a href="#contact" className="btn-primary">
-            Start a Project <FiArrowRight />
-          </a>
-          <a href="#" className="btn-outline">
-            View All Work
-          </a>
-        </motion.div>
       </div>
     </section>
   );
 }
+
 
 // Pattern SVG components for card backgrounds
 function PatternSvg({ type, accent }: { type: string; accent: string }) {
