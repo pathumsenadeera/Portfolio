@@ -1,0 +1,252 @@
+.about {
+  padding: 120px 0;
+  background: var(--bg-primary);
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 64px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.leftCol {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.heading {
+  font-family: var(--font-display);
+  font-size: clamp(48px, 5vw, 80px);
+  line-height: 0.95;
+  letter-spacing: 2px;
+  color: var(--white);
+  font-weight: 400;
+}
+
+.bio {
+  font-size: 15px;
+  color: var(--gray);
+  line-height: 1.8;
+  max-width: 480px;
+}
+
+.skillsWrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.skillBadge {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--neon);
+  border: 1px solid var(--border-neon);
+  padding: 6px 14px;
+  transition: var(--transition);
+  cursor: default;
+}
+
+.skillBadge:hover {
+  background: var(--neon-glow);
+  box-shadow: 0 0 12px var(--neon-glow);
+}
+
+/* Right column */
+.rightCol {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.profileCard {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  transition: var(--transition);
+}
+
+.profileCard:hover {
+  border-color: var(--border-neon);
+  box-shadow: 0 0 40px var(--neon-glow);
+}
+
+.profileCardTop {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.profileAvatar {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, var(--neon) 0%, var(--neon-dim) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 32px;
+  color: var(--bg-primary);
+  flex-shrink: 0;
+}
+
+.avatarGlow {
+  position: absolute;
+  inset: -4px;
+  background: var(--neon);
+  opacity: 0.15;
+  filter: blur(8px);
+  z-index: -1;
+}
+
+.profileName {
+  font-family: var(--font-body);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--white);
+}
+
+.profileRole {
+  font-family: var(--font-ui);
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: var(--gray);
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+.profileBadge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-ui);
+  font-size: 11px;
+  color: var(--neon);
+  margin-top: 8px;
+}
+
+.badgeDot {
+  width: 6px;
+  height: 6px;
+  background: var(--neon);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--neon);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+
+.profileStats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  border-top: 1px solid var(--border);
+  padding-top: 20px;
+}
+
+.profileStat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.profileStatNum {
+  font-family: var(--font-display);
+  font-size: 28px;
+  line-height: 1;
+}
+
+.profileStatLabel {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gray);
+}
+
+/* Tools card */
+.toolsCard {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.toolsTitle {
+  margin-bottom: 4px;
+}
+
+.toolItem {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.toolHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.toolName {
+  font-family: var(--font-ui);
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--white);
+}
+
+.toolLevel {
+  font-family: var(--font-display);
+  font-size: 16px;
+  color: var(--neon);
+}
+
+.toolBar {
+  height: 2px;
+  background: var(--border);
+  overflow: hidden;
+}
+
+.toolFill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--neon-dim), var(--neon));
+  box-shadow: 0 0 8px var(--neon-glow-strong);
+}
+
+@media (max-width: 1024px) {
+  .container {
+    grid-template-columns: 1fr;
+    gap: 48px;
+    padding: 0 32px;
+  }
+}
+
+@media (max-width: 600px) {
+  .about {
+    padding: 80px 0;
+  }
+  .container {
+    padding: 0 20px;
+  }
+  .profileStats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
