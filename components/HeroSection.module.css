@@ -215,18 +215,19 @@
 
 /* INLINE CUBE AND DESIGNER ROW */
 .designerRow {
-  display: flex;
+  position: relative;
+  display: inline-flex;
   align-items: center;
-  gap: 12px;
 }
 
 .inlineCubeContainer {
-  position: relative;
-  width: clamp(50px, 6vw, 100px);
-  height: clamp(50px, 6vw, 100px);
-  display: inline-block;
-  flex-shrink: 0;
-  margin-top: -10px; /* Slight optical adjustment */
+  position: absolute;
+  left: clamp(-100px, -10vw, -140px);
+  top: 50%;
+  transform: translateY(-50%);
+  width: clamp(80px, 8vw, 130px);
+  height: clamp(80px, 8vw, 130px);
+  z-index: 20;
 }
 
 /* RIGHT COLUMN */
