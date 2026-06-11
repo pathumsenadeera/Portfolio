@@ -176,6 +176,7 @@ export default function ContactSection() {
                     placeholder="john@example.com"
                     required
                     disabled={status === 'sending'}
+                    suppressHydrationWarning
                   />
                 </div>
               </div>
