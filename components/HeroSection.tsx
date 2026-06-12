@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { FiArrowRight, FiInstagram, FiLinkedin } from 'react-icons/fi';
 import { SiBehance } from 'react-icons/si';
 import styles from './HeroSection.module.css';
+import GlassCube from './GlassCube';
 
 const floatVariant: Variants = {
   animate: {

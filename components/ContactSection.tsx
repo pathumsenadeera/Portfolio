@@ -95,8 +95,8 @@ export default function ContactSection() {
               <div className={styles.contactIcon}><FiMail /></div>
               <div>
                 <div className={styles.contactLabel}>Email</div>
-                <a href="mailto:pathum@design.com" className={styles.contactValue}>
-                  pathum@design.com
+                <a href="mailto:hrmpathum21@gmail.com" className={styles.contactValue}>
+                  hrmpathum21@gmail.com
                 </a>
               </div>
             </div>
@@ -104,8 +104,8 @@ export default function ContactSection() {
               <div className={styles.contactIcon}><FiPhone /></div>
               <div>
                 <div className={styles.contactLabel}>Phone</div>
-                <a href="tel:+94771234567" className={styles.contactValue}>
-                  +94 77 123 4567
+                <a href="tel:+94776394567" className={styles.contactValue}>
+                  +94 77 639 4567
                 </a>
               </div>
             </div>
@@ -113,7 +113,7 @@ export default function ContactSection() {
               <div className={styles.contactIcon}><FiMapPin /></div>
               <div>
                 <div className={styles.contactLabel}>Location</div>
-                <span className={styles.contactValue}>Colombo, Sri Lanka</span>
+                <span className={styles.contactValue}>Matara, Sri Lanka</span>
               </div>
             </div>
           </motion.div>
