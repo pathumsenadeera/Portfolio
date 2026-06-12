@@ -4,9 +4,6 @@ import Image from 'next/image';
 import { FiArrowRight, FiInstagram, FiLinkedin } from 'react-icons/fi';
 import { SiBehance } from 'react-icons/si';
 import styles from './HeroSection.module.css';
-import dynamic from 'next/dynamic';
-
-const GlassCube = dynamic(() => import('./GlassCube'), { ssr: false });
 
 const floatVariant: Variants = {
   animate: {
@@ -51,31 +48,10 @@ export default function HeroSection() {
 
       {/* ─── CONTENT ─── */}
       <div className={styles.content}>
-        {/* LEFT COLUMN — Text + Cube */}
+        {/* LEFT COLUMN — Text */}
         <div className={styles.leftCol}>
           {/* Barcode decoration */}
-          <motion.div
-            className={styles.barcodeTag}
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 1.2, duration: 0.6 }}
-          >
-            <span className={styles.barcodeLines}>
-              {[12, 21, 9, 18, 24, 11, 15, 20, 8, 14, 22, 10, 19, 13, 23, 16, 9, 17, 21, 14].map((h, i) => (
-                <span key={i} className={styles.barLine} style={{ height: `${h}px` }} />
-              ))}
-            </span>
-            <span className={styles.barcodeText}>CREATIVE.STUDIO.2025</span>
-          </motion.div>
 
-          <motion.div
-            className="section-tag"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.3, duration: 0.6 }}
-          >
-            Available for work
-          </motion.div>
 
           <div className={styles.titleWrap}>
             <motion.div
@@ -87,12 +63,7 @@ export default function HeroSection() {
               transition={{ delay: 0.4, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             >
               <div>CREATIVE</div>
-              <div className={styles.designerRow}>
-                <div className={styles.inlineCubeContainer}>
-                  <GlassCube />
-                </div>
-                <span className={`${styles.titleNeon} neon-text neon-glow`}>DESIGNER</span>
-              </div>
+              <div className={`${styles.titleNeon} neon-text neon-glow`}>DESIGNER</div>
               <div>&amp; VISUAL</div>
               <div>ARTIST</div>
             </motion.div>
@@ -156,7 +127,7 @@ export default function HeroSection() {
             transition={{ delay: 0.5, duration: 1, ease: [0.22, 1, 0.36, 1] }}
           >
             <Image
-              src="/images/portrait.png"
+              src="/images/portraits.png"
               alt="Pathum"
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"
