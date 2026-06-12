@@ -1,0 +1,50 @@
+'use client';
+import { motion, useInView } from 'framer-motion';
+import { useRef } from 'react';
+import { FiArrowRight } from 'react-icons/fi';
+import styles from './CTABanner.module.css';
+
+export default function CTABanner() {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: '-60px' });
+
+  return (
+    <section className={styles.cta} ref={ref}>
+      {/* Scrolling background text */}
+      <div className={styles.marqueeBack} aria-hidden="true">
+        <div className={styles.marqueeLine}>
+          {Array(6).fill('LETS WORK TOGETHER •').join(' ')}
+        </div>
+      </div>
+
+      <div className={styles.inner}>
+        <motion.div
+          className={styles.content}
+          initial={{ opacity: 0, y: 40 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <div className={styles.eyebrow}>Open for Projects</div>
+          <h2 className={styles.heading}>
+            GOT A PROJECT<br />
+            <span className="neon-text neon-glow">IN MIND?</span>
+          </h2>
+          <p className={styles.sub}>
+            I'm currently taking on new clients. Let's create something bold, beautiful, and built to last.
+          </p>
+          <div className={styles.actions}>
+            <a href="#contact" className="btn-primary">
+              Start a Project <FiArrowRight />
+            </a>
+            <a href="mailto:hrmpathum21@gmail.com" className="btn-outline">
+              hrmpathum21@gmail.com
+            </a>
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Neon accent line */}
+      <div className={styles.neonLine} />
+    </section>
+  );
+}
