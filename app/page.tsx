@@ -1,6 +1,7 @@
 import Cursor from '@/components/Cursor';
 import Navbar from '@/components/Navbar';
 import HeroSection from '@/components/HeroSection';
+import MarqueeSection from '@/components/MarqueeSection';
 import AboutSection from '@/components/AboutSection';
 import PortfolioSection from '@/components/PortfolioSection';
 import ServicesSection from '@/components/ServicesSection';
@@ -14,6 +15,7 @@ export default function Home() {
       <Navbar />
       <main>
         <HeroSection />
+        <MarqueeSection />
         <AboutSection />
         <PortfolioSection />
         <ServicesSection />
