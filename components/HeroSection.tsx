@@ -1,10 +1,12 @@
 'use client';
-import { motion, Variants } from 'framer-motion';
+import { AnimatePresence, motion, Variants } from 'framer-motion';
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
 import { FiArrowRight, FiInstagram, FiLinkedin } from 'react-icons/fi';
 import { SiBehance } from 'react-icons/si';
 import styles from './HeroSection.module.css';
-import GlassCube from './GlassCube';
+
+const WORDS = ['DESIGNER', 'CREATOR', 'VISIONARY', 'DEVELOPER'];
 
 const floatVariant: Variants = {
   animate: {
@@ -22,6 +24,15 @@ const glowPulse: Variants = {
 };
 
 export default function HeroSection() {
+  const [wordIndex, setWordIndex] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setWordIndex((i) => (i + 1) % WORDS.length);
+    }, 2500);
+    return () => clearInterval(id);
+  }, []);
+
   return (
     <section className={styles.hero} id="home">
       {/* ─── BACKGROUND LAYERS ─── */}
@@ -51,9 +62,6 @@ export default function HeroSection() {
       <div className={styles.content}>
         {/* LEFT COLUMN — Text */}
         <div className={styles.leftCol}>
-          {/* Barcode decoration */}
-
-
           <div className={styles.titleWrap}>
             <motion.div
               role="heading"
@@ -64,7 +72,25 @@ export default function HeroSection() {
               transition={{ delay: 0.4, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             >
               <div>CREATIVE</div>
-              <div className={`${styles.titleNeon} neon-text neon-glow`}>DESIGNER</div>
+              <div className={styles.animatedWordWrap}>
+                {/* Invisible spacer — longest word holds the row height */}
+                <div className={styles.titleNeon} aria-hidden="true" style={{ visibility: 'hidden', pointerEvents: 'none' }}>
+                  VISIONARY
+                </div>
+                <AnimatePresence mode="sync" initial={false}>
+                  <motion.div
+                    key={WORDS[wordIndex]}
+                    className={styles.slidingWord}
+                    initial={{ rotateX: 90, opacity: 0 }}
+                    animate={{ rotateX: 0, opacity: 1 }}
+                    exit={{ rotateX: -90, opacity: 0 }}
+                    transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+                    style={{ transformOrigin: 'center center' }}
+                  >
+                    <span className="neon-text neon-glow">{WORDS[wordIndex]}</span>
+                  </motion.div>
+                </AnimatePresence>
+              </div>
               <div>&amp; VISUAL</div>
               <div>ARTIST</div>
             </motion.div>
@@ -157,17 +183,6 @@ export default function HeroSection() {
           >
             <span className={styles.floatDot} />
             Visual Storyteller
-          </motion.div>
-
-          {/* Year badge */}
-          <motion.div
-            className={styles.yearBadge}
-            initial={{ opacity: 0, rotate: -10 }}
-            animate={{ opacity: 1, rotate: 0 }}
-            transition={{ delay: 1.5, duration: 0.5 }}
-          >
-            <span>EST.</span>
-            <span className={styles.yearNum}>2020</span>
           </motion.div>
 
           {/* NAME BELOW PORTRAIT */}
