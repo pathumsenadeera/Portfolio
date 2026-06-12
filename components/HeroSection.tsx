@@ -39,7 +39,7 @@ export default function HeroSection() {
       <div className="grid-overlay" />
 
       {/* Large watermark letter */}
-      <div className={styles.watermarkLetter}>P</div>
+      <div className={styles.watermarkLetter}>PATHUM</div>
 
       {/* Vignette */}
       <div className={styles.vignette} />

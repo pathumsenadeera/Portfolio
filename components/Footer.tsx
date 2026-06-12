@@ -36,9 +36,9 @@ export default function Footer() {
             </div>
             <div className={styles.linkGroup}>
               <span className={styles.groupLabel}>Connect</span>
-              <a href="mailto:pathum@design.com" className={styles.link}>pathum@design.com</a>
-              <a href="tel:+94771234567" className={styles.link}>+94 77 123 4567</a>
-              <span className={styles.linkPlain}>Colombo, Sri Lanka</span>
+              <a href="mailto:hrmpathum21@gmail.com" className={styles.link}>hrmpathum21@gmail.com</a>
+              <a href="tel:+94776394567" className={styles.link}>+94 77 639 4567</a>
+              <span className={styles.linkPlain}>Matara, Sri Lanka</span>
               <div className={styles.socials}>
                 <a href="#" aria-label="Instagram" className={styles.social}><FiInstagram /></a>
                 <a href="#" aria-label="Behance" className={styles.social}><SiBehance /></a>

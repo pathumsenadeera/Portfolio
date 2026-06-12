@@ -1,77 +1,236 @@
-.about {
-  padding: 120px 0;
-  background: var(--bg-primary);
+/* ─── Scroll container (tall, enables pinning) ─── */
+.scrollContainer {
+  position: relative;
+  width: 100%;
 }
 
-.container {
+/* ─── Sticky panel (viewport-height, pinned) ─── */
+.stickyPanel {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--bg-primary);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* ─── Progress rail (right edge) ─── */
+.progressRail {
+  position: absolute;
+  right: 32px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  z-index: 20;
+}
+
+.railBar {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1px;
+  background: var(--neon);
+  transition: height 0.4s ease;
+  z-index: 0;
+}
+
+.railDot {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 1;
+  padding: 0;
+}
+
+.railDot:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.3);
+}
+
+.railDotActive {
+  background: var(--neon);
+  border-color: var(--neon);
+  box-shadow: 0 0 10px var(--neon-glow-strong);
+  transform: scale(1.4);
+}
+
+/* ─── Content Grid ─── */
+.grid {
+  position: relative;
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 64px;
+  padding: 0 80px 0 64px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 80px;
   align-items: center;
+  width: 100%;
+  z-index: 5;
 }
 
 /* ─── LEFT COLUMN ─── */
 .leftCol {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 20px;
 }
 
 .heading {
   font-family: var(--font-display);
-  font-size: clamp(48px, 5vw, 80px);
-  line-height: 0.95;
+  font-size: clamp(52px, 5.5vw, 88px);
+  line-height: 0.92;
   letter-spacing: 2px;
   color: var(--white);
   font-weight: 400;
+  transition: color 0.3s ease;
+}
+
+.headingAccent {
+  display: block;
+  transition: color 0.4s ease;
 }
 
 .bio {
-  font-size: 15px;
+  font-family: var(--font-body);
+  font-size: 14px;
   color: var(--gray);
   line-height: 1.8;
-  max-width: 480px;
+  max-width: 460px;
 }
 
-.skillsWrap {
+.deliverables {
+  list-style: none;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 8px;
-  margin-top: 8px;
 }
 
-.skillBadge {
-  font-family: var(--font-ui);
-  font-size: 11px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--neon);
-  border: 1px solid var(--border-neon);
-  padding: 6px 14px;
-  transition: var(--transition);
-  cursor: default;
-}
-
-.skillBadge:hover {
-  background: var(--neon-glow);
-  box-shadow: 0 0 12px var(--neon-glow);
-}
-
-/* ─── RIGHT COLUMN — BALLOON ARENA ─── */
-.rightCol {
+.deliverableItem {
   display: flex;
   align-items: center;
-  justify-content: center;
-  min-height: 420px;
+  gap: 10px;
+  font-family: var(--font-ui);
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
 }
 
+.dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--neon);
+  flex-shrink: 0;
+}
+
+.counter {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-top: 8px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.counterCurrent {
+  font-family: var(--font-display);
+  font-size: 32px;
+  line-height: 1;
+  letter-spacing: 2px;
+  transition: color 0.4s ease;
+}
+
+.counterSep {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  color: var(--gray-light);
+}
+
+.counterTotal {
+  font-family: var(--font-display);
+  font-size: 24px;
+  color: var(--gray-light);
+}
+
+.counterLabel {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gray);
+  margin-left: 8px;
+}
+
+/* ─── RIGHT COLUMN ─── */
+.rightCol {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  justify-content: center;
+}
+
+.statsRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.statBox {
+  background: var(--bg-card);
+  border: 1px solid var(--border-neon);
+  padding: 28px 24px;
+}
+
+.statValue {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 4vw, 56px);
+  line-height: 1;
+  letter-spacing: -1px;
+  color: var(--neon);
+}
+
+.statLabel {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gray);
+  margin-top: 6px;
+}
+
+/* Big watermark behind right col */
+.watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-display);
+  font-size: clamp(48px, 7vw, 100px);
+  white-space: nowrap;
+  pointer-events: none;
+  letter-spacing: 4px;
+  z-index: -1;
+  color: rgba(170, 255, 0, 0.04); /* very dim neon from theme */
+}
+
+/* Balloon arena */
 .balloonArena {
   position: relative;
-  width: 100%;
-  height: 420px;
+  flex: 1;
+  min-height: 280px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -79,7 +238,7 @@
 
 .balloonLabel {
   position: absolute;
-  top: 16px;
+  top: 8px;
   left: 50%;
   transform: translateX(-50%);
   font-family: var(--font-ui);
@@ -87,20 +246,6 @@
   letter-spacing: 3px;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.18);
-  pointer-events: none;
-  white-space: nowrap;
-}
-
-.balloonHint {
-  position: absolute;
-  bottom: 16px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-family: var(--font-ui);
-  font-size: 10px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.15);
   pointer-events: none;
   white-space: nowrap;
 }
@@ -113,48 +258,89 @@
   text-transform: uppercase;
   padding: 10px 22px;
   border-radius: 100px;
-  border: 1px solid;
+  border: 1px solid var(--border-neon);
+  color: var(--neon);
   background: rgba(0, 0, 0, 0.45);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   cursor: grab;
   user-select: none;
   white-space: nowrap;
+  box-shadow: 0 0 20px rgba(170, 255, 0, 0.12), 0 4px 28px rgba(0, 0, 0, 0.55);
   transition: background 0.2s ease;
   z-index: 10;
 }
 
 .balloonTag:hover {
-  background: rgba(0, 0, 0, 0.65);
+  background: rgba(170, 255, 0, 0.08);
+}
+
+/* Scroll cue */
+.scrollCue {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.scrollCueLine {
+  width: 32px;
+  height: 1px;
+  background: var(--neon);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.4; width: 20px; }
+  50%       { opacity: 1;   width: 40px; }
+}
+
+.scrollCueText {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gray-light);
+}
+
+/* Bottom progress bar */
+.bottomBar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 100%;
+  transform-origin: left;
+  background: var(--neon);
 }
 
 /* ─── RESPONSIVE ─── */
 @media (max-width: 1024px) {
-  .container {
+  .grid {
     grid-template-columns: 1fr;
-    gap: 60px;
+    gap: 40px;
     padding: 0 32px;
   }
-  .rightCol {
-    min-height: 340px;
+  .stickyPanel {
+    justify-content: flex-start;
+    padding-top: 100px;
   }
-  .balloonArena {
-    height: 340px;
+  .progressRail {
+    right: 16px;
+  }
+  .statsRow {
+    grid-template-columns: 1fr 1fr;
   }
 }
 
-@media (max-width: 600px) {
-  .about {
-    padding: 80px 0;
-  }
-  .container {
+@media (max-width: 640px) {
+  .grid {
     padding: 0 20px;
   }
-  .balloonArena {
-    height: 300px;
+  .scrollCue {
+    display: none;
   }
-  .balloonTag {
-    font-size: 11px;
-    padding: 8px 16px;
+  .watermark {
+    display: none;
   }
 }
