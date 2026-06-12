@@ -41,20 +41,6 @@ export default function HeroSection() {
       {/* Large watermark letter */}
       <div className={styles.watermarkLetter}>P</div>
 
-      {/* Neon light beams from top */}
-      <div className={styles.lightBeamContainer}>
-        <div className={`${styles.lightBeam} ${styles.beam1}`} />
-        <div className={`${styles.lightBeam} ${styles.beam2}`} />
-        <div className={`${styles.lightBeam} ${styles.beam3}`} />
-      </div>
-
-      {/* Central glow aura */}
-      <motion.div
-        className={styles.centralGlow}
-        variants={glowPulse}
-        animate="animate"
-      />
-
       {/* Vignette */}
       <div className={styles.vignette} />
 
@@ -161,28 +147,6 @@ export default function HeroSection() {
               priority
               className={styles.portraitImg}
             />
-            <div className={styles.greenTint} />
-          </motion.div>
-
-          {/* Floating labels */}
-          <motion.div
-            className={`${styles.floatLabel} ${styles.floatLabel1}`}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 1.2, duration: 0.5 }}
-          >
-            <span className={styles.floatDot} />
-            Brand Identity Expert
-          </motion.div>
-
-          <motion.div
-            className={`${styles.floatLabel} ${styles.floatLabel2}`}
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 1.4, duration: 0.5 }}
-          >
-            <span className={styles.floatDot} />
-            Visual Storyteller
           </motion.div>
 
           {/* NAME BELOW PORTRAIT */}
