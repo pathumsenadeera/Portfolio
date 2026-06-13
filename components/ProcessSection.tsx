@@ -8,31 +8,26 @@ const steps = [
     num: '01',
     title: 'Discovery',
     desc: 'We start with a deep dive into your brand, goals, and audience. I ask the right questions to build a strategic foundation before a single pixel is created.',
-    icon: '🔍',
   },
   {
     num: '02',
     title: 'Concept',
     desc: 'From research to raw ideas — I sketch, explore directions, and develop a creative concept that aligns your brand vision with visual impact.',
-    icon: '💡',
   },
   {
     num: '03',
     title: 'Design',
     desc: 'Ideas become pixels. I craft the final design with obsessive attention to detail — typography, colour, hierarchy, and layout all working in harmony.',
-    icon: '✏️',
   },
   {
     num: '04',
     title: 'Refine',
     desc: "Your feedback drives the iteration. We review together, refine until it's perfect, and ensure every element is intentional and impactful.",
-    icon: '🔄',
   },
   {
     num: '05',
     title: 'Deliver',
     desc: 'Final files are packaged cleanly in all required formats. I also provide brand guidelines so your identity stays consistent wherever it appears.',
-    icon: '🚀',
   },
 ];
 
@@ -89,7 +84,6 @@ export default function ProcessSection() {
             >
               <div className={styles.stepTop}>
                 <div className={styles.stepNum}>{step.num}</div>
-                <div className={styles.stepIcon}>{step.icon}</div>
               </div>
               <h3 className={styles.stepTitle}>{step.title}</h3>
               <p className={styles.stepDesc}>{step.desc}</p>

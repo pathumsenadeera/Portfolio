@@ -1,4 +1,4 @@
-import Cursor from '@/components/Cursor';
+
 import Navbar from '@/components/Navbar';
 import HeroSection from '@/components/HeroSection';
 import MarqueeSection from '@/components/MarqueeSection';
@@ -14,7 +14,7 @@ import Footer from '@/components/Footer';
 export default function Home() {
   return (
     <>
-      <Cursor />
+
       <Navbar />
       <main>
         {/* 1. Hero */}

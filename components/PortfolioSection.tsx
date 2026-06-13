@@ -7,71 +7,7 @@ import styles from './PortfolioSection.module.css';
 const AUTO_INTERVAL = 3000;  // ms between auto-advances
 const PAUSE_AFTER_MANUAL = 5000; // ms to pause after user interaction
 
-const projects = [
-  {
-    id: 1,
-    title: 'Felicitious Event',
-    category: 'Branding',
-    desc: 'Bold neon event identity with 3D glassmorphism elements.',
-    gradient: 'linear-gradient(135deg, #0a0a0a 0%, #1a2a0a 50%, #0f1a0a 100%)',
-    accent: '#aaff00',
-    pattern: 'cube',
-  },
-  {
-    id: 2,
-    title: 'Metal Expert Visual',
-    category: 'Print',
-    desc: 'Dramatic cinematic portrait with bold stencil typography.',
-    gradient: 'linear-gradient(135deg, #0a0a0a 0%, #0a1520 50%, #050d15 100%)',
-    accent: '#00ccff',
-    pattern: 'lines',
-  },
-  {
-    id: 3,
-    title: 'Apex Brand System',
-    category: 'Branding',
-    desc: 'Complete visual identity — logo, colors, and guidelines.',
-    gradient: 'linear-gradient(135deg, #0a0a0a 0%, #1a0a0a 50%, #100505 100%)',
-    accent: '#ff4444',
-    pattern: 'grid',
-  },
-  {
-    id: 4,
-    title: 'Neon City Poster',
-    category: 'Digital',
-    desc: 'Cyberpunk urban poster with glitch and neon aesthetics.',
-    gradient: 'linear-gradient(135deg, #080808 0%, #180a25 60%, #0d0515 100%)',
-    accent: '#cc44ff',
-    pattern: 'dots',
-  },
-  {
-    id: 5,
-    title: 'Apex Motion Reel',
-    category: 'Motion',
-    desc: 'Kinetic typography and dynamic brand animation sequences.',
-    gradient: 'linear-gradient(135deg, #080808 0%, #1a1200 60%, #120d00 100%)',
-    accent: '#ffaa00',
-    pattern: 'waves',
-  },
-  {
-    id: 6,
-    title: 'Urban Collective',
-    category: 'Print',
-    desc: 'Street culture editorial with bold layout and photo direction.',
-    gradient: 'linear-gradient(135deg, #080808 0%, #001a10 60%, #00100a 100%)',
-    accent: '#00ffaa',
-    pattern: 'circles',
-  },
-  {
-    id: 7,
-    title: 'Dark Matter Identity',
-    category: 'Branding',
-    desc: 'Minimalist sci-fi brand identity with space-age typography.',
-    gradient: 'linear-gradient(135deg, #080808 0%, #050510 60%, #03030d 100%)',
-    accent: '#4488ff',
-    pattern: 'hex',
-  },
-];
+import { useWorks } from '@/hooks/useWorks';
 
 // Calculate transform for each card in fan layout
 function getCardTransform(index: number, total: number, active: number) {
@@ -94,6 +30,7 @@ function getCardTransform(index: number, total: number, active: number) {
 
 
 export default function PortfolioSection() {
+  const { works, loading } = useWorks();
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-80px' });
   const [activeIndex, setActiveIndex] = useState(0);
@@ -124,13 +61,16 @@ export default function PortfolioSection() {
     }, tickMs);
 
     autoRef.current = setInterval(() => {
-      setActiveIndex(i => (i + 1) % projects.length);
+      setActiveIndex(i => works.length > 0 ? (i + 1) % works.length : 0);
       setProgress(0);
     }, AUTO_INTERVAL);
-  }, [clearAllTimers]);
+  }, [clearAllTimers, works.length]);
 
   // Pause and resume after PAUSE_AFTER_MANUAL ms
-  const handleManualInteraction = useCallback(() => {
+  const handleManualInteraction = useCallback((newIndex?: number) => {
+    if (newIndex !== undefined) {
+      setActiveIndex(newIndex);
+    }
     setIsPaused(true);
     clearAllTimers();
     setProgress(0);
@@ -150,16 +90,15 @@ export default function PortfolioSection() {
   }, [inView, isPaused, startAuto, clearAllTimers]);
 
   const prev = () => {
-    handleManualInteraction();
-    setActiveIndex(i => (i - 1 + projects.length) % projects.length);
+    if (works.length === 0) return;
+    handleManualInteraction((activeIndex - 1 + works.length) % works.length);
   };
   const next = () => {
-    handleManualInteraction();
-    setActiveIndex(i => (i + 1) % projects.length);
+    if (works.length === 0) return;
+    handleManualInteraction((activeIndex + 1) % works.length);
   };
   const goTo = (i: number) => {
-    handleManualInteraction();
-    setActiveIndex(i);
+    handleManualInteraction(i);
   };
 
   return (
@@ -211,81 +150,77 @@ export default function PortfolioSection() {
 
           {/* Cards */}
           <div className={styles.fanTrack}>
-            {projects.map((project, i) => {
-              const style = getCardTransform(i, projects.length, activeIndex);
-              const isActive = i === activeIndex;
-              return (
-                <div
-                  key={project.id}
-                  className={`${styles.fanCard} ${isActive ? styles.fanCardActive : ''}`}
-                  style={style}
-                  onClick={() => goTo(i)}
-                >
-                  {/* Card visual */}
-                  <div
-                    className={styles.cardVisual}
-                    style={{ background: project.gradient }}
-                  >
-                    {/* Pattern background */}
-                    <div className={styles.cardPattern}>
-                      <PatternSvg type={project.pattern} accent={project.accent} />
-                    </div>
-
-                    {/* Accent glow */}
-                    <div
-                      className={styles.cardAccentGlow}
-                      style={{ background: `radial-gradient(circle at 50% 60%, ${project.accent}22 0%, transparent 70%)` }}
-                    />
-
-                    {/* Number */}
-                    <div className={styles.cardNum}
-                      style={{ color: `${project.accent}18` }}
-                    >
-                      {String(project.id).padStart(2, '0')}
-                    </div>
-
-                    {/* Top label */}
-                    <div className={styles.cardTopLabel}>
-                      <span
-                        className={styles.cardCat}
-                        style={{ color: project.accent, borderColor: `${project.accent}44` }}
-                      >
-                        {project.category}
-                      </span>
-                    </div>
-
-                    {/* Bottom info */}
-                    <div className={styles.cardBottom}>
-                      <h3 className={styles.cardTitle}>{project.title}</h3>
-                      {isActive && (
-                        <motion.p
-                          className={styles.cardDesc}
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.3 }}
-                        >
-                          {project.desc}
-                        </motion.p>
-                      )}
-                    </div>
-
-                    {/* Hover overlay */}
-                    <div className={styles.cardHover}>
-                      <span className={styles.viewLabel}>View Project</span>
-                    </div>
-                  </div>
-
-                  {/* Active indicator line */}
-                  {isActive && (
+            {loading ? (
+              <div style={{ color: 'var(--gray)', textAlign: 'center', paddingTop: '40px' }}>Loading projects...</div>
+            ) : works.length === 0 ? (
+              <div style={{ color: 'var(--gray)', textAlign: 'center', paddingTop: '40px' }}>No projects found. Add some in your database!</div>
+            ) : (
+              <>
+                {works.map((p, i) => {
+                  const { transform, opacity, zIndex } = getCardTransform(i, works.length, activeIndex);
+                  const isActive = i === activeIndex;
+                  return (
                     <motion.div
-                      className={styles.activeBar}
-                      style={{ background: project.accent }}
-                      layoutId="activeBar"
-                    />
-                  )}
-                </div>
-              );
-            })}
+                      key={p.id}
+                      className={`${styles.fanCard} ${isActive ? styles.fanCardActive : ''}`}
+                      style={{ transform, opacity, zIndex }}
+                      onClick={() => {
+                        if (isActive && p.Link) {
+                          window.open(p.Link, '_blank');
+                        } else {
+                          handleManualInteraction(i);
+                        }
+                      }}
+                    >
+                      <div className={styles.cardVisual} style={{ background: p.gradient }}>
+                        <div className={styles.cardPattern}>
+                          <PatternSvg type={p.pattern} accent={p.accent} />
+                        </div>
+                        <div
+                          className={styles.cardAccentGlow}
+                          style={{ background: `radial-gradient(circle at 50% 60%, ${p.accent}22 0%, transparent 70%)` }}
+                        />
+                        <div className={styles.cardNum} style={{ color: `${p.accent}18` }}>
+                          {String(i + 1).padStart(2, '0')}
+                        </div>
+                        <div className={styles.cardTopLabel}>
+                          <span
+                            className={styles.cardCat}
+                            style={{ color: p.accent, borderColor: `${p.accent}44` }}
+                          >
+                            {p.type}
+                          </span>
+                        </div>
+                        <div className={styles.cardBottom}>
+                          <h3 className={styles.cardTitle}>{p.title}</h3>
+                          {isActive && (
+                            <motion.p
+                              className={styles.cardDesc}
+                              initial={{ opacity: 0, y: 10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ duration: 0.3 }}
+                            >
+                              {p.description}
+                            </motion.p>
+                          )}
+                        </div>
+                        <div className={styles.cardHover}>
+                          <span className={styles.viewLabel}>View Project</span>
+                        </div>
+                      </div>
+                      
+                      {isActive && (
+                        <motion.div
+                          className={styles.activeBar}
+                          style={{ background: p.accent }}
+                          layoutId="activeBar"
+                        />
+                      )}
+                    </motion.div>
+                  );
+                })}
+              </>
+            )}
           </div>
 
           {/* Navigation */}
@@ -298,13 +233,13 @@ export default function PortfolioSection() {
               <FiArrowLeft />
             </button>
 
-            {/* Dot indicators with auto-scroll progress ring */}
+            {/* Dot indicators */}
             <div className={styles.dots}>
-              {projects.map((_, i) => (
+              {works.map((_, i) => (
                 <button
                   key={i}
                   className={`${styles.dot} ${i === activeIndex ? styles.dotActive : ''}`}
-                  onClick={() => goTo(i)}
+                  onClick={() => handleManualInteraction(i)}
                   aria-label={`Go to project ${i + 1}`}
                 />
               ))}

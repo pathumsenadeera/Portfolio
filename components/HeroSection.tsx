@@ -3,9 +3,10 @@ import { AnimatePresence, motion, Variants } from 'framer-motion';
 import Image from 'next/image';
 import portraitPic from '@/public/images/portraits.png';
 import { useEffect, useState } from 'react';
-import { FiArrowRight, FiInstagram, FiLinkedin, FiPenTool } from 'react-icons/fi';
+import { FiArrowRight, FiInstagram, FiLinkedin, FiPenTool, FiGithub, FiFacebook } from 'react-icons/fi';
 import { SiBehance } from 'react-icons/si';
 import styles from './HeroSection.module.css';
+import { usePersonalInfo } from '@/hooks/usePersonalInfo';
 
 const WORDS = ['DESIGNER', 'CREATOR', 'VISIONARY', 'DEVELOPER'];
 
@@ -25,6 +26,7 @@ const glowPulse: Variants = {
 };
 
 export default function HeroSection() {
+  const { info, loading } = usePersonalInfo();
   const [wordIndex, setWordIndex] = useState(0);
 
   useEffect(() => {
@@ -115,15 +117,17 @@ export default function HeroSection() {
           >
             <span className={styles.socialLabel}>Follow</span>
             <div className={styles.socialLinks}>
-              <a href="#" aria-label="Instagram" className={styles.socialLink}>
-                <FiInstagram />
-              </a>
-              <a href="#" aria-label="Behance" className={styles.socialLink}>
-                <SiBehance />
-              </a>
-              <a href="#" aria-label="LinkedIn" className={styles.socialLink}>
-                <FiLinkedin />
-              </a>
+              {loading ? null : [
+                { icon: <FiInstagram />, href: info?.Instagram, label: 'Instagram' },
+                { icon: <SiBehance />, href: info?.Behance, label: 'Behance' },
+                { icon: <FiLinkedin />, href: info?.LinkedIn, label: 'LinkedIn' },
+                { icon: <FiFacebook />, href: info?.Facebook, label: 'Facebook' },
+                { icon: <FiGithub />, href: info?.Github, label: 'GitHub' },
+              ].filter(s => s.href).map(s => (
+                <a key={s.label} href={s.href} aria-label={s.label} className={styles.socialLink} target="_blank" rel="noreferrer">
+                  {s.icon}
+                </a>
+              ))}
             </div>
           </motion.div>
         </div>
