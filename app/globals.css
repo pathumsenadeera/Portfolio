@@ -2,7 +2,7 @@
 
 @font-face {
   font-family: 'Wapilor';
-  src: url('/fonts/wapilor-regular.otf') format('opentype');
+  src: url('../public/fonts/wapilor-regular.otf') format('opentype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
