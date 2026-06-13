@@ -5,6 +5,11 @@ export const metadata: Metadata = {
   title: "Pathum | Creative Designer Portfolio",
   description: "Award-winning graphic designer specializing in brand identity, visual design, and creative direction. Explore bold, cinematic design work.",
   keywords: ["graphic designer", "brand identity", "visual design", "portfolio", "creative director"],
+  icons: {
+    icon: "/images/pathum.png",
+    shortcut: "/images/pathum.png",
+    apple: "/images/pathum.png",
+  },
   openGraph: {
     title: "Pathum | Creative Designer Portfolio",
     description: "Bold creative design — Brand identity, visual design & creative direction.",
