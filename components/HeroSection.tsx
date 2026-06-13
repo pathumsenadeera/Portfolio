@@ -1,7 +1,7 @@
 'use client';
 import { AnimatePresence, motion, Variants } from 'framer-motion';
 import Image from 'next/image';
-import portraitPic from '@/public/images/portraits.png';
+import portraitPic from '@/public/images/portraits_pathum.svg';
 import { useEffect, useState } from 'react';
 import { FiArrowRight, FiInstagram, FiLinkedin, FiPenTool, FiGithub, FiFacebook } from 'react-icons/fi';
 import { SiBehance } from 'react-icons/si';
@@ -102,10 +102,12 @@ export default function HeroSection() {
             transition={{ delay: 0.9, duration: 0.6 }}
           >
             <a href="#work" className="btn-primary">
-              View Work <FiArrowRight />
+              <span className="btn-content">View Work <FiArrowRight /></span>
+              <span className="btn-content-clone" aria-hidden="true">View Work <FiArrowRight /></span>
             </a>
             <a href="#contact" className="btn-outline">
-              Let&apos;s Talk
+              <span className="btn-content">Let&apos;s Talk</span>
+              <span className="btn-content-clone" aria-hidden="true">Let&apos;s Talk</span>
             </a>
           </motion.div>
 

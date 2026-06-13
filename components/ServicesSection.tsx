@@ -9,6 +9,7 @@ import {
   FiArrowUpRight,
 } from 'react-icons/fi';
 import styles from './ServicesSection.module.css';
+import { useTools } from '@/hooks/useTools';
 
 const services = [
   {
@@ -52,6 +53,14 @@ const services = [
 export default function ServicesSection() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-80px' });
+  const { toolsMap, loading } = useTools();
+
+  // Map service titles to exact Firestore document names
+  const getDbKey = (title: string) => {
+    if (title === 'UI/UX Design') return 'UI_UX Design';
+    if (title === 'Web Development') return 'Web development';
+    return title;
+  };
 
   return (
     <section className={`${styles.services} section`} id="services" ref={ref}>
@@ -127,12 +136,19 @@ export default function ServicesSection() {
 
               {/* Tags */}
               <ul className={styles.list}>
-                {service.items.map(item => (
-                  <li key={item} className={styles.listItem}>
-                    <span className={styles.listDot} />
-                    {item}
-                  </li>
-                ))}
+                {loading ? (
+                  <li className={styles.listItem} style={{ color: 'var(--gray)' }}>Loading tools...</li>
+                ) : (
+                  (toolsMap[getDbKey(service.title)] && toolsMap[getDbKey(service.title)].length > 0 
+                    ? toolsMap[getDbKey(service.title)] 
+                    : service.items
+                  ).map(item => (
+                    <li key={item} className={styles.listItem}>
+                      <span className={styles.listDot} />
+                      {item}
+                    </li>
+                  ))
+                )}
               </ul>
 
               {/* CTA */}

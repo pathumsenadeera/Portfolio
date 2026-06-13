@@ -3,10 +3,13 @@ import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { FiArrowRight } from 'react-icons/fi';
 import styles from './CTABanner.module.css';
+import { usePersonalInfo } from '@/hooks/usePersonalInfo';
 
 export default function CTABanner() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-60px' });
+  const { info } = usePersonalInfo();
+  const email = info?.Email || 'hrmpathum21@gmail.com';
 
   return (
     <section className={styles.cta} ref={ref}>
@@ -34,10 +37,12 @@ export default function CTABanner() {
           </p>
           <div className={styles.actions}>
             <a href="#contact" className="btn-primary">
-              Start a Project <FiArrowRight />
+              <span className="btn-content">Start a Project <FiArrowRight /></span>
+              <span className="btn-content-clone" aria-hidden="true">Start a Project <FiArrowRight /></span>
             </a>
-            <a href="mailto:hrmpathum21@gmail.com" className="btn-outline">
-              hrmpathum21@gmail.com
+            <a href={`mailto:${email}`} className="btn-outline">
+              <span className="btn-content">{email}</span>
+              <span className="btn-content-clone" aria-hidden="true">{email}</span>
             </a>
           </div>
         </motion.div>
