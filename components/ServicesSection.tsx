@@ -52,7 +52,7 @@ const services = [
 
 export default function ServicesSection() {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-80px' });
+  const inView = useInView(ref, { once: false, margin: '-80px' });
   const { toolsMap, loading } = useTools();
 
   // Map service titles to exact Firestore document names
@@ -84,8 +84,8 @@ export default function ServicesSection() {
 
           <motion.h2
             className={styles.heading}
-            initial={{ opacity: 0, y: 30 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
+            initial={{ opacity: 0, x: -50 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ delay: 0.1, duration: 0.7 }}
           >
             WHAT I<br />
@@ -109,8 +109,8 @@ export default function ServicesSection() {
               key={service.num}
               className={styles.card}
               style={{ '--accent': service.accent } as React.CSSProperties}
-              initial={{ opacity: 0, y: 50 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
+              initial={{ opacity: 0, x: 50 }}
+              animate={inView ? { opacity: 1, x: 0 } : {}}
               transition={{ delay: 0.12 * i + 0.2, duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
             >
               {/* Top bar */}

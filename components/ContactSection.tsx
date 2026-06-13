@@ -14,7 +14,7 @@ const PUBLIC_KEY  = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
 
 export default function ContactSection() {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-80px' });
+  const inView = useInView(ref, { once: false, margin: '-80px' });
   const { info, loading } = usePersonalInfo();
   const [formData, setFormData] = useState({ name: '', email: '', project: '', message: '' });
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
@@ -67,8 +67,8 @@ export default function ContactSection() {
           </motion.div>
           <motion.h2
             className={styles.heading}
-            initial={{ opacity: 0, y: 30 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
+            initial={{ opacity: 0, x: -50 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ delay: 0.1, duration: 0.7 }}
           >
             LET&apos;S BUILD
@@ -89,8 +89,8 @@ export default function ContactSection() {
 
           <motion.div
             className={styles.contactItems}
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
+            initial={{ opacity: 0, x: -50 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ delay: 0.4, duration: 0.6 }}
           >
             <div className={styles.contactItem}>
@@ -143,7 +143,7 @@ export default function ContactSection() {
         {/* Right: Form */}
         <motion.div
           className={styles.formWrap}
-          initial={{ opacity: 0, x: 40 }}
+          initial={{ opacity: 0, x: 50 }}
           animate={inView ? { opacity: 1, x: 0 } : {}}
           transition={{ delay: 0.2, duration: 0.7 }}
         >
@@ -195,10 +195,10 @@ export default function ContactSection() {
                   disabled={status === 'sending'}
                 >
                   <option value="">Select a service</option>
-                  <option value="brand">Brand Identity</option>
-                  <option value="print">Print &amp; Editorial</option>
-                  <option value="motion">Motion Graphics</option>
-                  <option value="digital">Digital Design</option>
+                  <option value="uiux">UI/UX Design</option>
+                  <option value="web">Web Development</option>
+                  <option value="mobile">Mobile App Development</option>
+                  <option value="graphic">Graphic Design</option>
                   <option value="other">Other</option>
                 </select>
               </div>

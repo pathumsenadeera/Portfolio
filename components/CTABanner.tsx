@@ -7,7 +7,7 @@ import { usePersonalInfo } from '@/hooks/usePersonalInfo';
 
 export default function CTABanner() {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-60px' });
+  const inView = useInView(ref, { once: false, margin: '-60px' });
   const { info } = usePersonalInfo();
   const email = info?.Email || 'hrmpathum21@gmail.com';
 
@@ -23,8 +23,8 @@ export default function CTABanner() {
       <div className={styles.inner}>
         <motion.div
           className={styles.content}
-          initial={{ opacity: 0, y: 40 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
+          initial={{ opacity: 0, x: -50 }}
+          animate={inView ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         >
           <div className={styles.eyebrow}>Open for Projects</div>

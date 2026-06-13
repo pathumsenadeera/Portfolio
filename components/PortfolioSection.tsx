@@ -9,6 +9,36 @@ const PAUSE_AFTER_MANUAL = 5000; // ms to pause after user interaction
 
 import { useWorks } from '@/hooks/useWorks';
 
+export function getDriveDirectLink(url: string) {
+  if (!url) return '';
+
+  // Extract the file ID from any Google Drive URL format
+  let fileId = '';
+
+  // Format: /file/d/{ID}/view
+  let match = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+  if (match && match[1]) fileId = match[1];
+
+  // Format: ?id={ID} or &id={ID}
+  if (!fileId) {
+    match = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+    if (match && match[1]) fileId = match[1];
+  }
+
+  // Format: /open?id={ID}
+  if (!fileId) {
+    match = url.match(/open\?id=([a-zA-Z0-9_-]+)/);
+    if (match && match[1]) fileId = match[1];
+  }
+
+  if (fileId) {
+    // Use thumbnail URL — more reliable for web embedding than uc?export=view
+    return `https://drive.google.com/thumbnail?id=${fileId}&sz=w1000`;
+  }
+
+  return url;
+}
+
 // Calculate transform for each card in fan layout
 function getCardTransform(index: number, total: number, active: number) {
   const offset = index - active;
@@ -32,7 +62,7 @@ function getCardTransform(index: number, total: number, active: number) {
 export default function PortfolioSection() {
   const { works, loading } = useWorks();
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-80px' });
+  const inView = useInView(ref, { once: false, margin: '-80px' });
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [progress, setProgress] = useState(0); // 0-100 for progress ring
@@ -120,8 +150,8 @@ export default function PortfolioSection() {
           </motion.div>
           <motion.h2
             className={styles.heading}
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
+            initial={{ opacity: 0, x: -50 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ delay: 0.1, duration: 0.7 }}
           >
             Showcase My
@@ -141,8 +171,8 @@ export default function PortfolioSection() {
         {/* Fan Showcase */}
         <motion.div
           className={styles.fanStage}
-          initial={{ opacity: 0, y: 60 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
+          initial={{ opacity: 0, x: 50 }}
+          animate={inView ? { opacity: 1, x: 0 } : {}}
           transition={{ delay: 0.3, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
         >
           {/* Center glow beam */}
@@ -165,24 +195,37 @@ export default function PortfolioSection() {
                       className={`${styles.fanCard} ${isActive ? styles.fanCardActive : ''}`}
                       style={{ transform, opacity, zIndex }}
                       onClick={() => {
-                        if (isActive && p.Link) {
+                        if (isActive && p.Link && p.Link !== '#') {
                           window.open(p.Link, '_blank');
-                        } else {
+                        } else if (!isActive) {
                           handleManualInteraction(i);
                         }
                       }}
                     >
                       <div className={styles.cardVisual} style={{ background: p.gradient }}>
-                        <div className={styles.cardPattern}>
-                          <PatternSvg type={p.pattern} accent={p.accent} />
-                        </div>
-                        <div
-                          className={styles.cardAccentGlow}
-                          style={{ background: `radial-gradient(circle at 50% 60%, ${p.accent}22 0%, transparent 70%)` }}
-                        />
-                        <div className={styles.cardNum} style={{ color: `${p.accent}18` }}>
-                          {String(i + 1).padStart(2, '0')}
-                        </div>
+                        {p.image ? (
+                          <img 
+                            src={getDriveDirectLink(p.image)} 
+                            alt={p.title} 
+                            style={{ 
+                              position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', 
+                              objectFit: 'cover', opacity: 1
+                            }} 
+                          />
+                        ) : (
+                          <>
+                            <div className={styles.cardPattern}>
+                              <PatternSvg type={p.pattern} accent={p.accent} />
+                            </div>
+                            <div
+                              className={styles.cardAccentGlow}
+                              style={{ background: `radial-gradient(circle at 50% 60%, ${p.accent}22 0%, transparent 70%)` }}
+                            />
+                            <div className={styles.cardNum} style={{ color: `${p.accent}18` }}>
+                              {String(i + 1).padStart(2, '0')}
+                            </div>
+                          </>
+                        )}
                         <div className={styles.cardTopLabel}>
                           <span
                             className={styles.cardCat}
@@ -204,9 +247,11 @@ export default function PortfolioSection() {
                             </motion.p>
                           )}
                         </div>
-                        <div className={styles.cardHover}>
-                          <span className={styles.viewLabel}>View Project</span>
-                        </div>
+                        {p.Link && p.Link !== '#' && (
+                          <div className={styles.cardHover}>
+                            <span className={styles.viewLabel}>View Project</span>
+                          </div>
+                        )}
                       </div>
                       
                       {isActive && (

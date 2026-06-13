@@ -12,7 +12,7 @@ const stats = [
 
 export default function StatsSection() {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-60px' });
+  const inView = useInView(ref, { once: false, margin: '-60px' });
 
   return (
     <section className={styles.stats} ref={ref}>
@@ -21,8 +21,8 @@ export default function StatsSection() {
           <motion.div
             key={s.label}
             className={styles.item}
-            initial={{ opacity: 0, y: 40 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
+            initial={{ opacity: 0, x: -40 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ delay: i * 0.1, duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
           >
             <div className={styles.value}>{s.value}</div>

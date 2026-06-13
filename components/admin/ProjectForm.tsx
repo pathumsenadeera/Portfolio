@@ -10,7 +10,8 @@ export default function ProjectForm({ onSuccess }: { onSuccess?: () => void }) {
     id: '',
     description: '',
     type: '',
-    Link: ''
+    Link: '',
+    image: ''
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -32,10 +33,11 @@ export default function ProjectForm({ onSuccess }: { onSuccess?: () => void }) {
         description: formData.description,
         type: formData.type,
         Link: formData.Link,
+        image: formData.image,
         createdAt: new Date().toISOString()
       });
       alert('Work added successfully!');
-      setFormData({ id: '', description: '', type: '', Link: '' });
+      setFormData({ id: '', description: '', type: '', Link: '', image: '' });
       if (onSuccess) onSuccess();
     } catch (error) {
       console.error('Error adding document: ', error);
@@ -88,7 +90,7 @@ export default function ProjectForm({ onSuccess }: { onSuccess?: () => void }) {
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          <label style={{ color: 'var(--gray)', fontSize: '14px' }}>Link</label>
+          <label style={{ color: 'var(--gray)', fontSize: '14px' }}>Project URL Link</label>
           <input 
             type="url" 
             name="Link"
@@ -97,6 +99,18 @@ export default function ProjectForm({ onSuccess }: { onSuccess?: () => void }) {
             style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border)', padding: '12px', color: 'var(--white)', borderRadius: '8px' }}
           />
         </div>
+      </div>
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+        <label style={{ color: 'var(--gray)', fontSize: '14px' }}>Image URL (Google Drive Link)</label>
+        <input 
+          type="url" 
+          name="image"
+          value={formData.image}
+          onChange={handleChange}
+          placeholder="https://drive.google.com/..."
+          style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border)', padding: '12px', color: 'var(--white)', borderRadius: '8px' }}
+        />
       </div>
 
       <button type="submit" disabled={loading} className="btn-primary" style={{ marginTop: '16px', justifyContent: 'center' }}>

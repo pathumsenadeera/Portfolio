@@ -10,6 +10,7 @@ export interface WorkItem {
   description: string;
   type: string;
   Link: string;
+  image: string;
   gradient: string;  // Auto-generated
   accent: string;    // Auto-generated
   pattern: string;   // Auto-generated
@@ -43,13 +44,23 @@ export function useWorks() {
           // Generate deterministic styles based on index
           const gIndex = index % GRADIENTS.length;
           
+          let actualLink = data.Link || '#';
+          let actualImage = data.image || data.imageUrl || data.image_url || data.Link_Image || '';
+          
+          // If they pasted a Drive link in the general Link field, assume it's the image!
+          if (!actualImage && actualLink.includes('drive.google.com')) {
+            actualImage = actualLink;
+            actualLink = '#'; // Reset link so clicking the card doesn't just open the image
+          }
+          
           return {
             id: doc.id,
             // Format ID nicely if it uses dashes, e.g., "Project-01" -> "Project 01"
             title: doc.id.replace(/-/g, ' '), 
             description: data.description || '',
             type: data.type || 'WEB',
-            Link: data.Link || '#',
+            Link: actualLink,
+            image: actualImage,
             gradient: GRADIENTS[gIndex],
             accent: ACCENTS[gIndex],
             pattern: PATTERNS[gIndex],
