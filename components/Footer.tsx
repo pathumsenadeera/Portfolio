@@ -32,7 +32,7 @@ export default function Footer() {
             </div>
             <div className={styles.linkGroup}>
               <span className={styles.groupLabel}>Services</span>
-              {['Brand Identity', 'Print & Editorial', 'Motion Graphics', 'Digital Design'].map(s => (
+              {['UI/UX Design', 'Web Development', 'Mobile App Development', 'Graphic Design'].map(s => (
                 <span key={s} className={styles.linkPlain}>{s}</span>
               ))}
             </div>

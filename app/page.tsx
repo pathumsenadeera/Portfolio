@@ -1,20 +1,24 @@
+'use client';
 
+import dynamic from 'next/dynamic';
 import Navbar from '@/components/Navbar';
-import HeroSection from '@/components/HeroSection';
 import MarqueeSection from '@/components/MarqueeSection';
-import StatsSection from '@/components/StatsSection';
-import AboutSection from '@/components/AboutSection';
-import PortfolioSection from '@/components/PortfolioSection';
-import ServicesSection from '@/components/ServicesSection';
-import ProcessSection from '@/components/ProcessSection';
-import CTABanner from '@/components/CTABanner';
-import ContactSection from '@/components/ContactSection';
-import Footer from '@/components/Footer';
+
+// Load all Firebase-dependent sections only on the client
+// to avoid SSR/client hydration mismatch errors
+const HeroSection     = dynamic(() => import('@/components/HeroSection'),     { ssr: false });
+const StatsSection    = dynamic(() => import('@/components/StatsSection'),    { ssr: false });
+const AboutSection    = dynamic(() => import('@/components/AboutSection'),    { ssr: false });
+const PortfolioSection = dynamic(() => import('@/components/PortfolioSection'), { ssr: false });
+const ServicesSection = dynamic(() => import('@/components/ServicesSection'), { ssr: false });
+const ProcessSection  = dynamic(() => import('@/components/ProcessSection'),  { ssr: false });
+const CTABanner       = dynamic(() => import('@/components/CTABanner'),       { ssr: false });
+const ContactSection  = dynamic(() => import('@/components/ContactSection'),  { ssr: false });
+const Footer          = dynamic(() => import('@/components/Footer'),          { ssr: false });
 
 export default function Home() {
   return (
     <>
-
       <Navbar />
       <main>
         {/* 1. Hero */}
@@ -41,7 +45,7 @@ export default function Home() {
         {/* 8. CTA banner */}
         <CTABanner />
 
-        {/* 10. Contact form */}
+        {/* 9. Contact form */}
         <ContactSection />
       </main>
       <Footer />

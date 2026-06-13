@@ -33,7 +33,7 @@ const steps = [
 
 export default function ProcessSection() {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-80px' });
+  const inView = useInView(ref, { once: false, margin: '-80px' });
 
   return (
     <section className={`${styles.process} section`} id="process" ref={ref}>
@@ -52,8 +52,8 @@ export default function ProcessSection() {
           </motion.div>
           <motion.h2
             className={styles.heading}
-            initial={{ opacity: 0, y: 30 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
+            initial={{ opacity: 0, x: -50 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ delay: 0.1, duration: 0.7 }}
           >
             MY CREATIVE<br />
@@ -78,8 +78,8 @@ export default function ProcessSection() {
             <motion.div
               key={step.num}
               className={styles.step}
-              initial={{ opacity: 0, y: 50 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
+              initial={{ opacity: 0, x: 50 }}
+              animate={inView ? { opacity: 1, x: 0 } : {}}
               transition={{ delay: i * 0.12 + 0.2, duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
             >
               <div className={styles.stepTop}>
