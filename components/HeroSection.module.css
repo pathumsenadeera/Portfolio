@@ -313,9 +313,10 @@
 .portraitWrap {
   position: relative;
   width: 100%;
-  height: 68vh; /* Increased from 58vh */
-  max-height: 650px; /* Increased from 520px */
+  height: 68vh;
+  max-height: 650px;
   z-index: 5;
+  overflow: visible;
 }
 
 .greenTint {
@@ -336,10 +337,12 @@
   object-fit: contain;
   object-position: bottom center;
   filter: contrast(1.08) brightness(0.95);
-  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 1) 85%, transparent 100%);
+  transform: scale(1.18) translateY(15%);
+  transform-origin: bottom center;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 1) 75%, transparent 100%);
   -webkit-mask-image: linear-gradient(
     180deg,
-    rgba(0, 0, 0, 1) 85%,
+    rgba(0, 0, 0, 1) 75%,
     transparent 100%
   );
 }
