@@ -14,6 +14,7 @@ export const metadata: Metadata = {
 
 import SmoothScroll from "@/components/SmoothScroll";
 import ScrollProgress from "@/components/ScrollProgress";
+import Cursor from "@/components/Cursor";
 
 export default function RootLayout({
   children,
@@ -25,6 +26,7 @@ export default function RootLayout({
       <body suppressHydrationWarning>
         <ScrollProgress />
         <SmoothScroll />
+        <Cursor />
         <div className="noise" />
         {children}
       </body>

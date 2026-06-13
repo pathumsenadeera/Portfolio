@@ -1,11 +1,13 @@
 'use client';
 import { motion } from 'framer-motion';
-import { FiInstagram, FiLinkedin, FiArrowUp } from 'react-icons/fi';
+import { FiInstagram, FiLinkedin, FiArrowUp, FiGithub, FiFacebook } from 'react-icons/fi';
 import { SiBehance } from 'react-icons/si';
 import styles from './Footer.module.css';
+import { usePersonalInfo } from '@/hooks/usePersonalInfo';
 
 export default function Footer() {
   const scrollTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+  const { info, loading } = usePersonalInfo();
 
   return (
     <footer className={styles.footer}>
@@ -36,13 +38,25 @@ export default function Footer() {
             </div>
             <div className={styles.linkGroup}>
               <span className={styles.groupLabel}>Connect</span>
-              <a href="mailto:hrmpathum21@gmail.com" className={styles.link}>hrmpathum21@gmail.com</a>
-              <a href="tel:+94776394567" className={styles.link}>+94 77 639 4567</a>
+              <a href={info?.Email ? `mailto:${info.Email}` : "#"} className={styles.link}>
+                {loading ? 'Loading...' : info?.Email || 'Email unavailable'}
+              </a>
+              <a href={info?.['Contact No'] ? `tel:${info['Contact No'].replace(/\s+/g, '')}` : "#"} className={styles.link}>
+                {loading ? 'Loading...' : info?.['Contact No'] || 'Phone unavailable'}
+              </a>
               <span className={styles.linkPlain}>Matara, Sri Lanka</span>
               <div className={styles.socials}>
-                <a href="#" aria-label="Instagram" className={styles.social}><FiInstagram /></a>
-                <a href="#" aria-label="Behance" className={styles.social}><SiBehance /></a>
-                <a href="#" aria-label="LinkedIn" className={styles.social}><FiLinkedin /></a>
+                {loading ? null : [
+                  { icon: <FiInstagram />, href: info?.Instagram, label: 'Instagram' },
+                  { icon: <SiBehance />, href: info?.Behance, label: 'Behance' },
+                  { icon: <FiLinkedin />, href: info?.LinkedIn, label: 'LinkedIn' },
+                  { icon: <FiFacebook />, href: info?.Facebook, label: 'Facebook' },
+                  { icon: <FiGithub />, href: info?.Github, label: 'GitHub' },
+                ].filter(s => s.href).map(s => (
+                  <a key={s.label} href={s.href} aria-label={s.label} className={styles.social} target="_blank" rel="noreferrer">
+                    {s.icon}
+                  </a>
+                ))}
               </div>
             </div>
           </div>

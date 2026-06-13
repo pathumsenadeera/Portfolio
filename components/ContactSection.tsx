@@ -2,10 +2,11 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
-import { FiMail, FiPhone, FiMapPin, FiSend, FiInstagram, FiLinkedin } from 'react-icons/fi';
+import { FiMail, FiPhone, FiMapPin, FiSend, FiInstagram, FiLinkedin, FiGithub, FiFacebook } from 'react-icons/fi';
 import { SiBehance } from 'react-icons/si';
 import emailjs from '@emailjs/browser';
 import styles from './ContactSection.module.css';
+import { usePersonalInfo } from '@/hooks/usePersonalInfo';
 
 const SERVICE_ID  = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!;
 const TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!;
@@ -14,6 +15,7 @@ const PUBLIC_KEY  = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
 export default function ContactSection() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-80px' });
+  const { info, loading } = usePersonalInfo();
   const [formData, setFormData] = useState({ name: '', email: '', project: '', message: '' });
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
   const [errorMsg, setErrorMsg] = useState('');
@@ -95,8 +97,8 @@ export default function ContactSection() {
               <div className={styles.contactIcon}><FiMail /></div>
               <div>
                 <div className={styles.contactLabel}>Email</div>
-                <a href="mailto:hrmpathum21@gmail.com" className={styles.contactValue}>
-                  hrmpathum21@gmail.com
+                <a href={info?.Email ? `mailto:${info.Email}` : "#"} className={styles.contactValue}>
+                  {loading ? 'Loading...' : info?.Email || 'Not available'}
                 </a>
               </div>
             </div>
@@ -104,8 +106,8 @@ export default function ContactSection() {
               <div className={styles.contactIcon}><FiPhone /></div>
               <div>
                 <div className={styles.contactLabel}>Phone</div>
-                <a href="tel:+94776394567" className={styles.contactValue}>
-                  +94 77 639 4567
+                <a href={info?.['Contact No'] ? `tel:${info['Contact No'].replace(/\s+/g, '')}` : "#"} className={styles.contactValue}>
+                  {loading ? 'Loading...' : info?.['Contact No'] || 'Not available'}
                 </a>
               </div>
             </div>
@@ -124,12 +126,14 @@ export default function ContactSection() {
             animate={inView ? { opacity: 1 } : {}}
             transition={{ delay: 0.6, duration: 0.5 }}
           >
-            {[
-              { icon: <FiInstagram />, href: '#', label: 'Instagram' },
-              { icon: <SiBehance />, href: '#', label: 'Behance' },
-              { icon: <FiLinkedin />, href: '#', label: 'LinkedIn' },
-            ].map(s => (
-              <a key={s.label} href={s.href} aria-label={s.label} className={styles.socialIcon}>
+            {loading ? null : [
+              { icon: <FiInstagram />, href: info?.Instagram, label: 'Instagram' },
+              { icon: <SiBehance />, href: info?.Behance, label: 'Behance' },
+              { icon: <FiLinkedin />, href: info?.LinkedIn, label: 'LinkedIn' },
+              { icon: <FiFacebook />, href: info?.Facebook, label: 'Facebook' },
+              { icon: <FiGithub />, href: info?.Github, label: 'GitHub' },
+            ].filter(s => s.href).map(s => (
+              <a key={s.label} href={s.href} aria-label={s.label} target="_blank" rel="noreferrer" className={styles.socialIcon}>
                 {s.icon}
               </a>
             ))}

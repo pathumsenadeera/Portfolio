@@ -40,3 +40,4 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 ss/Dark website design Hero section with slideshow animation for Framer using the.webp
+firestore.rules

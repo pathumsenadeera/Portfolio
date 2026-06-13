@@ -8,6 +8,14 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'Azonix';
+  src: url('../public/fonts/azonix.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --bg-primary: #080808;
   --bg-secondary: #0f0f0f;
