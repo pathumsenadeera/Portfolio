@@ -40,9 +40,9 @@
   font-family: var(--font-display);
   font-size: clamp(40px, 5vw, 72px);
   line-height: 1;
-  letter-spacing: 2px;
+  letter-spacing: -0.5px;
   color: var(--white);
-  font-weight: 400;
+  font-weight: 800;
 }
 
 .headingAccent {
@@ -195,7 +195,7 @@
   font-size: 18px;
   letter-spacing: 1px;
   color: var(--white);
-  font-weight: 400;
+  font-weight: 800;
   margin: 0;
 }
 

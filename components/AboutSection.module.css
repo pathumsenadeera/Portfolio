@@ -90,9 +90,9 @@
   font-family: var(--font-display);
   font-size: clamp(52px, 5.5vw, 88px);
   line-height: 0.92;
-  letter-spacing: 2px;
+  letter-spacing: -0.5px;
   color: var(--white);
-  font-weight: 400;
+  font-weight: 800;
   transition: color 0.3s ease;
 }
 
@@ -148,7 +148,7 @@
   font-family: var(--font-display);
   font-size: 32px;
   line-height: 1;
-  letter-spacing: 2px;
+  letter-spacing: -0.5px;
   transition: color 0.4s ease;
 }
 
