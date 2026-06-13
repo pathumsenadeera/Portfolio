@@ -46,9 +46,9 @@
 }
 
 .logoText {
-  font-family: var(--font-display);
-  font-size: 20px;
-  letter-spacing: 4px;
+  font-family: 'Azonix', sans-serif;
+  font-size: 16px;
+  letter-spacing: 2px;
   color: var(--white);
 }
 

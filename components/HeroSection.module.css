@@ -402,15 +402,23 @@
 }
 
 .nameTitle {
-  font-family: var(--font-display);
-  font-size: clamp(28px, 3.5vw, 52px);
+  font-family: 'Azonix', sans-serif;
+  font-size: clamp(22px, 3vw, 42px);
   line-height: 1;
-  letter-spacing: 4px;
+  letter-spacing: 2px;
   color: var(--white);
+  display: inline-flex;
+  align-items: center;
+}
+
+.nameIcon {
+  font-size: 0.6em;
+  color: var(--neon);
+  margin-left: 8px;
 }
 
 .nameSubtitle {
-  font-family: 'Wapilor', sans-serif;
+  font-family: var(--font-display);
   font-size: clamp(28px, 3.5vw, 52px);
   line-height: 1;
   letter-spacing: 4px;

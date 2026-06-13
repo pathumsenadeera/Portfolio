@@ -3,7 +3,7 @@ import { AnimatePresence, motion, Variants } from 'framer-motion';
 import Image from 'next/image';
 import portraitPic from '@/public/images/portraits.png';
 import { useEffect, useState } from 'react';
-import { FiArrowRight, FiInstagram, FiLinkedin } from 'react-icons/fi';
+import { FiArrowRight, FiInstagram, FiLinkedin, FiPenTool } from 'react-icons/fi';
 import { SiBehance } from 'react-icons/si';
 import styles from './HeroSection.module.css';
 
@@ -158,7 +158,9 @@ export default function HeroSection() {
             transition={{ delay: 0.8, duration: 0.8 }}
           >
             <div className={styles.nameInner}>
-              <span className={styles.nameTitle}>PATHUM</span>
+              <span className={styles.nameTitle}>
+                PATHUM <FiPenTool className={styles.nameIcon} />
+              </span>
               <span className={styles.nameSubtitle}>SENADEERA</span>
             </div>
             <div className={styles.nameRoleRow}>
