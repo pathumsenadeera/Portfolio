@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { FiHome, FiGrid, FiTool, FiArrowLeft, FiPenTool } from 'react-icons/fi';
+import { FiHome, FiGrid, FiTool, FiArrowLeft, FiPenTool, FiUser } from 'react-icons/fi';
 import styles from './Sidebar.module.css';
 
 export default function Sidebar() {
@@ -10,6 +10,7 @@ export default function Sidebar() {
 
   const navItems = [
     { name: 'Dashboard', path: '/pathum/admin', icon: <FiHome /> },
+    { name: 'Personal Info', path: '/pathum/admin/personal-info', icon: <FiUser /> },
     { name: 'Projects', path: '/pathum/admin/projects', icon: <FiGrid /> },
     { name: 'Tools & Software', path: '/pathum/admin/tools', icon: <FiTool /> },
   ];

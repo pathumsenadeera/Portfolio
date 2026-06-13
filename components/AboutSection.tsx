@@ -2,6 +2,7 @@
 import { useRef, useState } from 'react';
 import { motion, useScroll, useMotionValueEvent, AnimatePresence } from 'framer-motion';
 import styles from './AboutSection.module.css';
+import { useTools } from '@/hooks/useTools';
 
 /* ─── Balloon positions for up to 4 tools ──────────────────── */
 const BALLOON_POS = [
@@ -9,8 +10,9 @@ const BALLOON_POS = [
   { x:  110, y: -70 },
   { x:  -60, y:  50 },
   { x:  130, y:  60 },
+  { x:    0, y: -10 },
 ];
-const BOB_OFFSETS = [0, 0.7, 1.4, 2.1];
+const BOB_OFFSETS = [0, 0.7, 1.4, 2.1, 2.8];
 
 /* ─── Service data ─────────────────────────────────────────── */
 const SERVICES = [
@@ -58,23 +60,20 @@ const SERVICES = [
     stat1: { value: '15+', label: 'Apps Published' },
     stat2: { value: '4.8★', label: 'Avg Store Rating' },
   },
-  {
-    num: '05',
-    tag: 'Motion & Cinema',
-    title: 'Motion Graphics',
-    headline: ['BRINGING', 'IDEAS TO', 'LIFE'],
-    bio: "Kinetic visuals that tell unforgettable stories. From brand animations to full cinematic motion reels, I create motion experiences that leave audiences in awe and brands memorable.",
-    deliverables: ['Brand Animation', 'Motion Reels', 'Kinetic Typography', 'Video Editing', 'Social Content'],
-    tools: ['After Effects', 'Premiere Pro', 'DaVinci', 'Blender'],
-    stat1: { value: '25+', label: 'Motion Projects' },
-    stat2: { value: '10M+', label: 'Views Generated' },
-  },
 ];
 
 /* ─── Main component ────────────────────────────────────────── */
 export default function AboutSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const { toolsMap } = useTools();
+
+  const getDbKey = (title: string) => {
+    if (title === 'UI / UX Design') return 'UI_UX Design';
+    if (title === 'Web Development') return 'Web development';
+    if (title === 'Mobile App Dev') return 'Mobile App Development';
+    return title;
+  };
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -230,7 +229,10 @@ export default function AboutSection() {
                 transition={{ duration: 0.3 }}
               >
                 <span className={styles.balloonLabel}>Tools &amp; Software</span>
-                {svc.tools.map((tool, i) => (
+                {(toolsMap[getDbKey(svc.title)] && toolsMap[getDbKey(svc.title)].length > 0
+                  ? toolsMap[getDbKey(svc.title)]
+                  : svc.tools
+                ).map((tool, i) => (
                   <BalloonTag
                     key={`${activeIndex}-${tool}`}
                     label={tool}

@@ -58,7 +58,8 @@ export default function Navbar() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.7 }}
           >
-            Hire Me
+            <span className="btn-content">Hire Me</span>
+            <span className="btn-content-clone" aria-hidden="true">Hire Me</span>
           </motion.a>
 
           <button
