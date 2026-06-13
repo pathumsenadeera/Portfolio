@@ -1,6 +1,7 @@
 'use client';
 import { AnimatePresence, motion, Variants } from 'framer-motion';
 import Image from 'next/image';
+import portraitPic from '@/public/images/portraits.png';
 import { useEffect, useState } from 'react';
 import { FiArrowRight, FiInstagram, FiLinkedin } from 'react-icons/fi';
 import { SiBehance } from 'react-icons/si';
@@ -140,7 +141,7 @@ export default function HeroSection() {
             transition={{ delay: 0.5, duration: 1, ease: [0.22, 1, 0.36, 1] }}
           >
             <Image
-              src="/images/portraits.png"
+              src={portraitPic}
               alt="Pathum"
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"
