@@ -14,7 +14,7 @@ const BALLOON_POS = [
 ];
 const BOB_OFFSETS = [0, 0.7, 1.4, 2.1, 2.8];
 
-/* ─── Service data ─────────────────────────────────────────── */
+/* ─── Service data ────────────────────────────────────────── */
 const SERVICES = [
   {
     num: '01',
