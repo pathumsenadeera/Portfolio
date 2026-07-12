@@ -50,7 +50,10 @@
   cursor: pointer;
   transition: all 0.3s ease;
   z-index: 1;
-  padding: 0;
+  /* Expand touch target to 44x44px without changing visual size (WCAG 2.5.8) */
+  padding: 18px;
+  margin: -18px;
+  background-clip: content-box;
 }
 
 .railDot:hover {

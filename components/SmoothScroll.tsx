@@ -16,14 +16,18 @@ export default function SmoothScroll() {
       infinite: false,
     } as any);
 
+    let rafId: number;
+
     function raf(time: number) {
       lenis.raf(time);
-      requestAnimationFrame(raf);
+      rafId = requestAnimationFrame(raf);
     }
 
-    requestAnimationFrame(raf);
+    rafId = requestAnimationFrame(raf);
 
     return () => {
+      // Cancel the RAF loop AND destroy lenis to prevent ghost animation on main thread
+      cancelAnimationFrame(rafId);
       lenis.destroy();
     };
   }, []);

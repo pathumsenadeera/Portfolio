@@ -127,11 +127,11 @@ export default function ContactSection() {
             transition={{ delay: 0.6, duration: 0.5 }}
           >
             {loading ? null : [
-              { icon: <FiInstagram />, href: info?.Instagram, label: 'Instagram' },
-              { icon: <SiBehance />, href: info?.Behance, label: 'Behance' },
-              { icon: <FiLinkedin />, href: info?.LinkedIn, label: 'LinkedIn' },
-              { icon: <FiFacebook />, href: info?.Facebook, label: 'Facebook' },
-              { icon: <FiGithub />, href: info?.Github, label: 'GitHub' },
+              { icon: <FiInstagram aria-hidden="true" />, href: info?.Instagram, label: 'Instagram' },
+              { icon: <SiBehance aria-hidden="true" />, href: info?.Behance, label: 'Behance' },
+              { icon: <FiLinkedin aria-hidden="true" />, href: info?.LinkedIn, label: 'LinkedIn' },
+              { icon: <FiFacebook aria-hidden="true" />, href: info?.Facebook, label: 'Facebook' },
+              { icon: <FiGithub aria-hidden="true" />, href: info?.Github, label: 'GitHub' },
             ].filter(s => s.href).map(s => (
               <a key={s.label} href={s.href} aria-label={s.label} target="_blank" rel="noreferrer" className={styles.socialIcon}>
                 {s.icon}
@@ -157,9 +157,10 @@ export default function ContactSection() {
             <form onSubmit={handleSubmit} className={styles.form}>
               <div className={styles.formRow}>
                 <div className={styles.field}>
-                  <label className={styles.label}>Your Name</label>
+                  <label htmlFor="contact-name" className={styles.label}>Your Name</label>
                   <input
                     type="text"
+                    id="contact-name"
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
@@ -170,9 +171,10 @@ export default function ContactSection() {
                   />
                 </div>
                 <div className={styles.field}>
-                  <label className={styles.label}>Email Address</label>
+                  <label htmlFor="contact-email" className={styles.label}>Email Address</label>
                   <input
                     type="email"
+                    id="contact-email"
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
@@ -185,9 +187,11 @@ export default function ContactSection() {
                 </div>
               </div>
               <div className={styles.field}>
-                <label className={styles.label}>Project Type</label>
+                <label htmlFor="contact-project" className={styles.label}>Project Type</label>
                 <select
+                  id="contact-project"
                   name="project"
+                  aria-label="Project Type"
                   value={formData.project}
                   onChange={handleChange}
                   className={styles.select}
@@ -203,8 +207,9 @@ export default function ContactSection() {
                 </select>
               </div>
               <div className={styles.field}>
-                <label className={styles.label}>Tell Me About Your Project</label>
+                <label htmlFor="contact-message" className={styles.label}>Tell Me About Your Project</label>
                 <textarea
+                  id="contact-message"
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
@@ -231,7 +236,7 @@ export default function ContactSection() {
                     <span className={styles.spinner} /> Sending…
                   </>
                 ) : (
-                  <>Send Message <FiSend /></>
+                  <>Send Message <FiSend aria-hidden="true" /></>
                 )}
               </button>
             </form>

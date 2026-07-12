@@ -119,8 +119,8 @@ export default function ServicesSection() {
                 <span className={styles.cardTag}>{service.tag}</span>
               </div>
 
-              {/* Icon */}
-              <div className={styles.iconWrap}>
+              {/* Icon — decorative, labelled by the card h3 */}
+              <div className={styles.iconWrap} aria-hidden="true">
                 {service.icon}
                 <div className={styles.iconRing} />
               </div>
@@ -154,7 +154,7 @@ export default function ServicesSection() {
               {/* CTA */}
               <a href="#contact" className={styles.cardLink}>
                 <span>Get Started</span>
-                <FiArrowUpRight className={styles.linkIcon} />
+                <FiArrowUpRight className={styles.linkIcon} aria-hidden="true" />
               </a>
 
               {/* Hover accent glow */}

@@ -1,21 +1,24 @@
+import dynamic from 'next/dynamic';
 import Navbar from '@/components/Navbar';
 import HeroSection from '@/components/HeroSection';
-import MarqueeSection from '@/components/MarqueeSection';
-import StatsSection from '@/components/StatsSection';
-import AboutSection from '@/components/AboutSection';
-import PortfolioSection from '@/components/PortfolioSection';
-import ServicesSection from '@/components/ServicesSection';
-import ProcessSection from '@/components/ProcessSection';
-import CTABanner from '@/components/CTABanner';
-import ContactSection from '@/components/ContactSection';
-import Footer from '@/components/Footer';
+
+// Below-fold sections loaded lazily for code-splitting (components are 'use client' internally)
+const MarqueeSection   = dynamic(() => import('@/components/MarqueeSection'));
+const StatsSection     = dynamic(() => import('@/components/StatsSection'));
+const AboutSection     = dynamic(() => import('@/components/AboutSection'));
+const PortfolioSection = dynamic(() => import('@/components/PortfolioSection'));
+const ServicesSection  = dynamic(() => import('@/components/ServicesSection'));
+const ProcessSection   = dynamic(() => import('@/components/ProcessSection'));
+const CTABanner        = dynamic(() => import('@/components/CTABanner'));
+const ContactSection   = dynamic(() => import('@/components/ContactSection'));
+const Footer           = dynamic(() => import('@/components/Footer'));
 
 export default function Home() {
   return (
     <>
       <Navbar />
       <main>
-        {/* 1. Hero */}
+        {/* 1. Hero — above fold, static import */}
         <HeroSection />
 
         {/* 2. Scrolling ribbon marquee (between Hero & About) */}
@@ -46,3 +49,4 @@ export default function Home() {
     </>
   );
 }
+

@@ -1,15 +1,17 @@
 .marqueeSection {
   position: relative;
   width: 100%;
-  height: 300px; /* Provides space for the overlapping rotated ribbons */
+  height: 300px;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: transparent; /* Changed to transparent to match the dark theme perfectly */
-  margin-top: -80px; /* Moved up more to sit closer/overlap with hero section */
+  background-color: transparent;
+  margin-top: -80px;
   margin-bottom: 50px;
   z-index: 5;
+  /* Isolate layout calculations from the rest of the page */
+  contain: layout style;
 }
 
 .ribbon {
@@ -53,6 +55,8 @@
   display: flex;
   width: max-content;
   white-space: nowrap;
+  /* Promote to GPU compositing layer — prevents main-thread reflow during scroll */
+  will-change: transform;
 }
 
 .marqueeTrack {

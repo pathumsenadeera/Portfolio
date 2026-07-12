@@ -248,7 +248,7 @@ export default function PortfolioSection() {
                           )}
                         </div>
                         {p.Link && p.Link !== '#' && (
-                          <div className={styles.cardHover}>
+                          <div className={styles.cardHover} aria-hidden="true">
                             <span className={styles.viewLabel}>View Project</span>
                           </div>
                         )}
@@ -275,7 +275,7 @@ export default function PortfolioSection() {
               onClick={prev}
               aria-label="Previous project"
             >
-              <FiArrowLeft />
+              <FiArrowLeft aria-hidden="true" />
             </button>
 
             {/* Dot indicators */}
@@ -295,12 +295,18 @@ export default function PortfolioSection() {
               onClick={next}
               aria-label="Next project"
             >
-              <FiArrowRight />
+              <FiArrowRight aria-hidden="true" />
             </button>
 
             {/* Auto-scroll progress ring */}
             <div className={styles.progressRing} title={isPaused ? 'Paused — resumes automatically' : 'Auto-scrolling'}>
-              <svg width="32" height="32" viewBox="0 0 32 32">
+              <svg
+                width="32"
+                height="32"
+                viewBox="0 0 32 32"
+                role="img"
+                aria-label={isPaused ? 'Auto-scroll paused' : `Auto-scroll progress: ${Math.round(progress)}%`}
+              >
                 <circle cx="16" cy="16" r="13" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="2" />
                 <circle
                   cx="16" cy="16" r="13"
@@ -314,7 +320,7 @@ export default function PortfolioSection() {
                   style={{ transition: 'stroke-dashoffset 0.05s linear, stroke 0.3s ease' }}
                 />
               </svg>
-              <span className={styles.progressIcon}>{isPaused ? '⏸' : '▶'}</span>
+              <span className={styles.progressIcon} aria-hidden="true">{isPaused ? '⏸' : '▶'}</span>
             </div>
           </div>
         </motion.div>

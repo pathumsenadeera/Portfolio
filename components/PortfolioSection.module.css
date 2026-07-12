@@ -313,7 +313,11 @@
   border: none;
   cursor: pointer;
   transition: all 0.3s ease;
-  padding: 0;
+  /* Expand hit area to 44x44px without changing visual size */
+  padding: 19px;
+  margin: -19px;
+  background-clip: content-box;
+  background-color: var(--gray-light);
 }
 
 .dotActive {
