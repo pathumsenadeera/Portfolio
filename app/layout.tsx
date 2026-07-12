@@ -53,6 +53,26 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        {/* Non-blocking Google Fonts — preconnect + deferred stylesheet to avoid render-blocking */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        {/* Load font stylesheet non-blocking via media="print" trick */}
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
+          media="print"
+          // @ts-expect-error – onLoad is valid HTML, needed for progressive font loading
+          onLoad="this.media='all'"
+        />
+        {/* Fallback for JS-disabled environments */}
+        <noscript>
+          <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
+          />
+        </noscript>
+      </head>
       <body suppressHydrationWarning>
         <ScrollProgress />
         <SmoothScroll />
@@ -63,3 +83,4 @@ export default function RootLayout({
     </html>
   );
 }
+

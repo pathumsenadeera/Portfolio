@@ -119,8 +119,8 @@ export default function ServicesSection() {
                 <span className={styles.cardTag}>{service.tag}</span>
               </div>
 
-              {/* Icon */}
-              <div className={styles.iconWrap}>
+              {/* Icon — decorative, labelled by the card h3 */}
+              <div className={styles.iconWrap} aria-hidden="true">
                 {service.icon}
                 <div className={styles.iconRing} />
               </div>

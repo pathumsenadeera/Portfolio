@@ -256,6 +256,8 @@ export default function AboutSection() {
           className={styles.bottomBar}
           animate={{ scaleX: (activeIndex + 1) / SERVICES.length }}
           transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+          style={{ willChange: 'transform' }}
+          aria-hidden="true"
         />
       </div>
     </div>

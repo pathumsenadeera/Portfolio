@@ -13,6 +13,7 @@ export default function Cursor() {
 
     let mouseX = 0, mouseY = 0;
     let followerX = 0, followerY = 0;
+    let rafId: number;
 
     const onMove = (e: MouseEvent) => {
       mouseX = e.clientX;
@@ -26,21 +27,30 @@ export default function Cursor() {
       followerY += (mouseY - followerY) * 0.1;
       follower.style.left = followerX + 'px';
       follower.style.top = followerY + 'px';
-      requestAnimationFrame(animate);
+      rafId = requestAnimationFrame(animate);
     };
 
     const onEnter = () => cursor.classList.add('expanded');
     const onLeave = () => cursor.classList.remove('expanded');
 
-    document.addEventListener('mousemove', onMove);
-    document.querySelectorAll('a, button, .hover-target').forEach(el => {
+    // { passive: true } lets browser process input events without waiting for JS
+    document.addEventListener('mousemove', onMove, { passive: true });
+
+    const hoverTargets = document.querySelectorAll('a, button, .hover-target');
+    hoverTargets.forEach(el => {
       el.addEventListener('mouseenter', onEnter);
       el.addEventListener('mouseleave', onLeave);
     });
 
-    animate();
+    rafId = requestAnimationFrame(animate);
+
     return () => {
+      cancelAnimationFrame(rafId);
       document.removeEventListener('mousemove', onMove);
+      hoverTargets.forEach(el => {
+        el.removeEventListener('mouseenter', onEnter);
+        el.removeEventListener('mouseleave', onLeave);
+      });
     };
   }, []);
 

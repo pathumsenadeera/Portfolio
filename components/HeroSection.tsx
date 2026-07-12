@@ -52,9 +52,7 @@ export default function HeroSection() {
         {/* LEFT COLUMN — Text */}
         <div className={styles.leftCol}>
           <div className={styles.titleWrap}>
-            <motion.div
-              role="heading"
-              aria-level={1}
+            <motion.h1
               className={styles.title}
               initial={{ opacity: 0, y: 60 }}
               animate={{ opacity: 1, y: 0 }}
@@ -80,9 +78,9 @@ export default function HeroSection() {
                   </motion.div>
                 </AnimatePresence>
               </div>
-              <div>&amp; VISUAL</div>
+              <div>& VISUAL</div>
               <div>ARTIST</div>
-            </motion.div>
+            </motion.h1>
           </div>
 
           <motion.p
@@ -148,7 +146,7 @@ export default function HeroSection() {
           >
             <Image
               src={portraitPic}
-              alt="Pathum"
+              alt="Pathum Senadeera — Creative Designer & Visual Artist"
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"
               priority
