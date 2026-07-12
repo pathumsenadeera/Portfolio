@@ -47,11 +47,11 @@ export default function Footer() {
               <span className={styles.linkPlain}>Matara, Sri Lanka</span>
               <div className={styles.socials}>
                 {loading ? null : [
-                  { icon: <FiInstagram />, href: info?.Instagram, label: 'Instagram' },
-                  { icon: <SiBehance />, href: info?.Behance, label: 'Behance' },
-                  { icon: <FiLinkedin />, href: info?.LinkedIn, label: 'LinkedIn' },
-                  { icon: <FiFacebook />, href: info?.Facebook, label: 'Facebook' },
-                  { icon: <FiGithub />, href: info?.Github, label: 'GitHub' },
+                  { icon: <FiInstagram aria-hidden="true" />, href: info?.Instagram, label: 'Instagram' },
+                  { icon: <SiBehance aria-hidden="true" />, href: info?.Behance, label: 'Behance' },
+                  { icon: <FiLinkedin aria-hidden="true" />, href: info?.LinkedIn, label: 'LinkedIn' },
+                  { icon: <FiFacebook aria-hidden="true" />, href: info?.Facebook, label: 'Facebook' },
+                  { icon: <FiGithub aria-hidden="true" />, href: info?.Github, label: 'GitHub' },
                 ].filter(s => s.href).map(s => (
                   <a key={s.label} href={s.href} aria-label={s.label} className={styles.social} target="_blank" rel="noreferrer">
                     {s.icon}
@@ -69,7 +69,7 @@ export default function Footer() {
             © 2025 Pathum Senadeera. All rights reserved.
           </span>
           <button onClick={scrollTop} className={styles.scrollTop} aria-label="Back to top">
-            <FiArrowUp />
+            <FiArrowUp aria-hidden="true" />
             Back to top
           </button>
         </div>

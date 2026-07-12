@@ -100,8 +100,8 @@ export default function HeroSection() {
             transition={{ delay: 0.9, duration: 0.6 }}
           >
             <a href="#work" className="btn-primary">
-              <span className="btn-content">View Work <FiArrowRight /></span>
-              <span className="btn-content-clone" aria-hidden="true">View Work <FiArrowRight /></span>
+              <span className="btn-content">View Work <FiArrowRight aria-hidden="true" /></span>
+              <span className="btn-content-clone" aria-hidden="true">View Work <FiArrowRight aria-hidden="true" /></span>
             </a>
             <a href="#contact" className="btn-outline">
               <span className="btn-content">Let&apos;s Talk</span>
@@ -118,11 +118,11 @@ export default function HeroSection() {
             <span className={styles.socialLabel}>Follow</span>
             <div className={styles.socialLinks}>
               {loading ? null : [
-                { icon: <FiInstagram />, href: info?.Instagram, label: 'Instagram' },
-                { icon: <SiBehance />, href: info?.Behance, label: 'Behance' },
-                { icon: <FiLinkedin />, href: info?.LinkedIn, label: 'LinkedIn' },
-                { icon: <FiFacebook />, href: info?.Facebook, label: 'Facebook' },
-                { icon: <FiGithub />, href: info?.Github, label: 'GitHub' },
+                { icon: <FiInstagram aria-hidden="true" />, href: info?.Instagram, label: 'Instagram' },
+                { icon: <SiBehance aria-hidden="true" />, href: info?.Behance, label: 'Behance' },
+                { icon: <FiLinkedin aria-hidden="true" />, href: info?.LinkedIn, label: 'LinkedIn' },
+                { icon: <FiFacebook aria-hidden="true" />, href: info?.Facebook, label: 'Facebook' },
+                { icon: <FiGithub aria-hidden="true" />, href: info?.Github, label: 'GitHub' },
               ].filter(s => s.href).map(s => (
                 <a key={s.label} href={s.href} aria-label={s.label} className={styles.socialLink} target="_blank" rel="noreferrer">
                   {s.icon}
@@ -163,7 +163,7 @@ export default function HeroSection() {
           >
             <div className={styles.nameInner}>
               <span className={styles.nameTitle}>
-                PATHUM <FiPenTool className={styles.nameIcon} />
+                PATHUM <FiPenTool className={styles.nameIcon} aria-hidden="true" />
               </span>
               <span className={styles.nameSubtitle}>SENADEERA</span>
             </div>

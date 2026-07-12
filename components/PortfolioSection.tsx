@@ -275,7 +275,7 @@ export default function PortfolioSection() {
               onClick={prev}
               aria-label="Previous project"
             >
-              <FiArrowLeft />
+              <FiArrowLeft aria-hidden="true" />
             </button>
 
             {/* Dot indicators */}
@@ -295,7 +295,7 @@ export default function PortfolioSection() {
               onClick={next}
               aria-label="Next project"
             >
-              <FiArrowRight />
+              <FiArrowRight aria-hidden="true" />
             </button>
 
             {/* Auto-scroll progress ring */}

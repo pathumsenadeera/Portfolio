@@ -127,11 +127,11 @@ export default function ContactSection() {
             transition={{ delay: 0.6, duration: 0.5 }}
           >
             {loading ? null : [
-              { icon: <FiInstagram />, href: info?.Instagram, label: 'Instagram' },
-              { icon: <SiBehance />, href: info?.Behance, label: 'Behance' },
-              { icon: <FiLinkedin />, href: info?.LinkedIn, label: 'LinkedIn' },
-              { icon: <FiFacebook />, href: info?.Facebook, label: 'Facebook' },
-              { icon: <FiGithub />, href: info?.Github, label: 'GitHub' },
+              { icon: <FiInstagram aria-hidden="true" />, href: info?.Instagram, label: 'Instagram' },
+              { icon: <SiBehance aria-hidden="true" />, href: info?.Behance, label: 'Behance' },
+              { icon: <FiLinkedin aria-hidden="true" />, href: info?.LinkedIn, label: 'LinkedIn' },
+              { icon: <FiFacebook aria-hidden="true" />, href: info?.Facebook, label: 'Facebook' },
+              { icon: <FiGithub aria-hidden="true" />, href: info?.Github, label: 'GitHub' },
             ].filter(s => s.href).map(s => (
               <a key={s.label} href={s.href} aria-label={s.label} target="_blank" rel="noreferrer" className={styles.socialIcon}>
                 {s.icon}
@@ -191,6 +191,7 @@ export default function ContactSection() {
                 <select
                   id="contact-project"
                   name="project"
+                  aria-label="Project Type"
                   value={formData.project}
                   onChange={handleChange}
                   className={styles.select}
@@ -235,7 +236,7 @@ export default function ContactSection() {
                     <span className={styles.spinner} /> Sending…
                   </>
                 ) : (
-                  <>Send Message <FiSend /></>
+                  <>Send Message <FiSend aria-hidden="true" /></>
                 )}
               </button>
             </form>

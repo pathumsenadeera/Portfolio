@@ -154,7 +154,7 @@ export default function ServicesSection() {
               {/* CTA */}
               <a href="#contact" className={styles.cardLink}>
                 <span>Get Started</span>
-                <FiArrowUpRight className={styles.linkIcon} />
+                <FiArrowUpRight className={styles.linkIcon} aria-hidden="true" />
               </a>
 
               {/* Hover accent glow */}
