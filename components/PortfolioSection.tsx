@@ -60,6 +60,7 @@ export default function PortfolioSection() {
   const inView = useInView(ref, { once: false, margin: '-80px' });
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const pauseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const autoRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -86,6 +87,8 @@ export default function PortfolioSection() {
     }, PAUSE_AFTER_MANUAL);
   }, [clearAllTimers]);
 
+  useEffect(() => { setMounted(true); }, []);
+
   useEffect(() => {
     if (inView && !isPaused) {
       startAuto();
@@ -106,6 +109,10 @@ export default function PortfolioSection() {
   
   const activeWork = works[activeIndex];
 
+  if (!mounted) {
+    return <section className={`${styles.portfolio} section`} id="work" ref={ref} />;
+  }
+
   return (
     <section className={`${styles.portfolio} section`} id="work" ref={ref}>
       <div className={styles.container}>
@@ -116,7 +123,7 @@ export default function PortfolioSection() {
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         >
-          <div className={styles.sectionTag}>Selected Work</div>
+          <div className={styles.sectionTag}>Showcase</div>
           <h2 className={styles.heading}>
             <span className={styles.headingAccent}>Creative Work</span>
           </h2>
