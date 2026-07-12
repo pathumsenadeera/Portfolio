@@ -1,63 +1,58 @@
 'use client';
 import { motion, useInView } from 'framer-motion';
 import { useRef, useState, useEffect, useCallback } from 'react';
-import { FiArrowRight, FiArrowLeft } from 'react-icons/fi';
+import { FiArrowRight, FiArrowLeft, FiMapPin } from 'react-icons/fi';
 import styles from './PortfolioSection.module.css';
 
-const AUTO_INTERVAL = 3000;  // ms between auto-advances
-const PAUSE_AFTER_MANUAL = 5000; // ms to pause after user interaction
+const AUTO_INTERVAL = 4000;  // ms between auto-advances
+const PAUSE_AFTER_MANUAL = 6000; // ms to pause after user interaction
 
 import { useWorks } from '@/hooks/useWorks';
 
 export function getDriveDirectLink(url: string) {
   if (!url) return '';
-
-  // Extract the file ID from any Google Drive URL format
   let fileId = '';
-
-  // Format: /file/d/{ID}/view
   let match = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
   if (match && match[1]) fileId = match[1];
-
-  // Format: ?id={ID} or &id={ID}
   if (!fileId) {
     match = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
     if (match && match[1]) fileId = match[1];
   }
-
-  // Format: /open?id={ID}
   if (!fileId) {
     match = url.match(/open\?id=([a-zA-Z0-9_-]+)/);
     if (match && match[1]) fileId = match[1];
   }
-
   if (fileId) {
-    // Use thumbnail URL — more reliable for web embedding than uc?export=view
     return `https://drive.google.com/thumbnail?id=${fileId}&sz=w1000`;
   }
-
   return url;
 }
 
-// Calculate transform for each card in fan layout
+// True Coverflow Transform
 function getCardTransform(index: number, total: number, active: number) {
   const offset = index - active;
   const absOffset = Math.abs(offset);
+  const sign = Math.sign(offset);
 
-  // Fan spread config
-  const rotateY = offset * 18;           // degrees of Y rotation
-  const translateX = offset * 110;        // horizontal spread in px
-  const translateZ = -absOffset * 80;    // depth recession
-  const scale = 1 - absOffset * 0.08;   // scale down side cards
-  const opacity = 1 - absOffset * 0.15; // fade side cards
-
+  // Active is flat, large, pushed slightly forward
+  // Sibling cards are rotated and pushed behind.
+  const rotateY = offset === 0 ? 0 : sign * -40;
+  
+  // Space them out
+  const baseTranslateX = sign * 140; 
+  const spreadX = offset * 110; 
+  const translateX = offset === 0 ? 0 : baseTranslateX + spreadX;
+  
+  // Push side cards back
+  const translateZ = offset === 0 ? 50 : -absOffset * 180;
+  const scale = offset === 0 ? 1.05 : 1; 
+  
   return {
     transform: `perspective(1200px) translateX(${translateX}px) translateZ(${translateZ}px) rotateY(${rotateY}deg) scale(${scale})`,
-    opacity: Math.max(opacity, 0.2),
+    opacity: Math.max(1 - absOffset * 0.3, 0),
     zIndex: total - absOffset,
   };
 }
-
 
 export default function PortfolioSection() {
   const { works, loading } = useWorks();
@@ -65,51 +60,35 @@ export default function PortfolioSection() {
   const inView = useInView(ref, { once: false, margin: '-80px' });
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  const [progress, setProgress] = useState(0); // 0-100 for progress ring
+  const [mounted, setMounted] = useState(false);
   const pauseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const autoRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const progressRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  // Clear all timers helper
   const clearAllTimers = useCallback(() => {
     if (autoRef.current) clearInterval(autoRef.current);
-    if (progressRef.current) clearInterval(progressRef.current);
     if (pauseTimerRef.current) clearTimeout(pauseTimerRef.current);
   }, []);
 
-  // Start auto-scroll + progress tick
   const startAuto = useCallback(() => {
     clearAllTimers();
-    setProgress(0);
-
-    const tickMs = 50;
-    progressRef.current = setInterval(() => {
-      setProgress(p => {
-        const next = p + (tickMs / AUTO_INTERVAL) * 100;
-        return next >= 100 ? 100 : next;
-      });
-    }, tickMs);
-
     autoRef.current = setInterval(() => {
       setActiveIndex(i => works.length > 0 ? (i + 1) % works.length : 0);
-      setProgress(0);
     }, AUTO_INTERVAL);
   }, [clearAllTimers, works.length]);
 
-  // Pause and resume after PAUSE_AFTER_MANUAL ms
   const handleManualInteraction = useCallback((newIndex?: number) => {
     if (newIndex !== undefined) {
       setActiveIndex(newIndex);
     }
     setIsPaused(true);
     clearAllTimers();
-    setProgress(0);
     pauseTimerRef.current = setTimeout(() => {
       setIsPaused(false);
     }, PAUSE_AFTER_MANUAL);
   }, [clearAllTimers]);
 
-  // Start auto-scroll once section is in view
+  useEffect(() => { setMounted(true); }, []);
+
   useEffect(() => {
     if (inView && !isPaused) {
       startAuto();
@@ -127,63 +106,41 @@ export default function PortfolioSection() {
     if (works.length === 0) return;
     handleManualInteraction((activeIndex + 1) % works.length);
   };
-  const goTo = (i: number) => {
-    handleManualInteraction(i);
-  };
+  
+  const activeWork = works[activeIndex];
+
+  if (!mounted) {
+    return <section className={`${styles.portfolio} section`} id="work" ref={ref} />;
+  }
 
   return (
     <section className={`${styles.portfolio} section`} id="work" ref={ref}>
-      {/* Background glow */}
-      <div className={styles.bgGlow} />
-      <div className="grid-overlay" />
-
       <div className={styles.container}>
-        {/* Header */}
-        <div className={styles.header}>
-          <motion.div
-            className="section-tag"
-            initial={{ opacity: 0, y: -10 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5 }}
-          >
-            Selected Work
-          </motion.div>
-          <motion.h2
-            className={styles.heading}
-            initial={{ opacity: 0, x: -50 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ delay: 0.1, duration: 0.7 }}
-          >
-            Showcase My
-            <br />
-            <span className={`${styles.headingAccent} neon-text neon-glow`}>Creative Work</span>
-          </motion.h2>
-          <motion.p
-            className={styles.subheading}
-            initial={{ opacity: 0 }}
-            animate={inView ? { opacity: 1 } : {}}
-            transition={{ delay: 0.25, duration: 0.5 }}
-          >
-            Bold visuals crafted with intention — swipe through selected projects
-          </motion.p>
-        </div>
+        {/* ─── SECTION HEADER ─── */}
+        <motion.div
+          className={styles.header}
+          initial={{ opacity: 0, y: 30 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <div className={styles.sectionTag}>Showcase</div>
+          <h2 className={styles.heading}>
+            <span className={styles.headingAccent}>Creative Work</span>
+          </h2>
+        </motion.div>
 
-        {/* Fan Showcase */}
         <motion.div
           className={styles.fanStage}
-          initial={{ opacity: 0, x: 50 }}
-          animate={inView ? { opacity: 1, x: 0 } : {}}
-          transition={{ delay: 0.3, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+          initial={{ opacity: 0 }}
+          animate={inView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
         >
-          {/* Center glow beam */}
-          <div className={styles.centerBeam} />
-
-          {/* Cards */}
+          {/* Cards Track */}
           <div className={styles.fanTrack}>
             {loading ? (
-              <div style={{ color: 'var(--gray)', textAlign: 'center', paddingTop: '40px' }}>Loading projects...</div>
+              <div style={{ color: 'var(--gray)' }}>Loading projects...</div>
             ) : works.length === 0 ? (
-              <div style={{ color: 'var(--gray)', textAlign: 'center', paddingTop: '40px' }}>No projects found. Add some in your database!</div>
+              <div style={{ color: 'var(--gray)' }}>No projects found.</div>
             ) : (
               <>
                 {works.map((p, i) => {
@@ -194,73 +151,43 @@ export default function PortfolioSection() {
                       key={p.id}
                       className={`${styles.fanCard} ${isActive ? styles.fanCardActive : ''}`}
                       style={{ transform, opacity, zIndex }}
-                      onClick={() => {
-                        if (isActive && p.Link && p.Link !== '#') {
-                          window.open(p.Link, '_blank');
-                        } else if (!isActive) {
-                          handleManualInteraction(i);
-                        }
-                      }}
+                      onClick={() => !isActive && handleManualInteraction(i)}
                     >
-                      <div className={styles.cardVisual} style={{ background: p.gradient }}>
+                      <div className={styles.cardVisual}>
                         {p.image ? (
                           <img 
                             src={getDriveDirectLink(p.image)} 
                             alt={p.title} 
-                            style={{ 
-                              position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', 
-                              objectFit: 'cover', opacity: 1
-                            }} 
+                            className={styles.cardImg}
                           />
                         ) : (
-                          <>
-                            <div className={styles.cardPattern}>
-                              <PatternSvg type={p.pattern} accent={p.accent} />
-                            </div>
-                            <div
-                              className={styles.cardAccentGlow}
-                              style={{ background: `radial-gradient(circle at 50% 60%, ${p.accent}22 0%, transparent 70%)` }}
-                            />
-                            <div className={styles.cardNum} style={{ color: `${p.accent}18` }}>
-                              {String(i + 1).padStart(2, '0')}
-                            </div>
-                          </>
-                        )}
-                        <div className={styles.cardTopLabel}>
-                          <span
-                            className={styles.cardCat}
-                            style={{ color: p.accent, borderColor: `${p.accent}44` }}
-                          >
-                            {p.type}
-                          </span>
-                        </div>
-                        <div className={styles.cardBottom}>
-                          <h3 className={styles.cardTitle}>{p.title}</h3>
-                          {isActive && (
-                            <motion.p
-                              className={styles.cardDesc}
-                              initial={{ opacity: 0, y: 10 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              transition={{ duration: 0.3 }}
-                            >
-                              {p.description}
-                            </motion.p>
-                          )}
-                        </div>
-                        {p.Link && p.Link !== '#' && (
-                          <div className={styles.cardHover}>
-                            <span className={styles.viewLabel}>View Project</span>
+                          <div className={styles.cardFallback}>
+                            <PatternSvg type={p.pattern} accent={p.accent} />
                           </div>
                         )}
+
+
+                        {/* Bottom Info Glass Pane */}
+                        <div className={`${styles.glassInfo} ${isActive ? styles.glassInfoActive : ''}`}>
+                          <div className={styles.glassInfoTop}>
+                            <h3 className={styles.glassTitle}>{p.title}</h3>
+                            {isActive && <span className={styles.glassPage}>{i + 1} / {works.length}</span>}
+                          </div>
+                          
+                          {isActive ? (
+                            <>
+                              <p className={styles.glassDesc}>{p.description || "A creative project exploring new visual horizons and modern design principles."}</p>
+                              <div className={styles.glassMeta}>
+                                <FiMapPin className={styles.metaIcon} /> {p.type} Project, Online
+                                <br />
+                                <span className={styles.glassSubtext}>{p.id} • Creative Portfolio</span>
+                              </div>
+                            </>
+                          ) : (
+                            <p className={styles.glassSubtitle}>{p.type}</p>
+                          )}
+                        </div>
                       </div>
-                      
-                      {isActive && (
-                        <motion.div
-                          className={styles.activeBar}
-                          style={{ background: p.accent }}
-                          layoutId="activeBar"
-                        />
-                      )}
                     </motion.div>
                   );
                 })}
@@ -268,63 +195,50 @@ export default function PortfolioSection() {
             )}
           </div>
 
-          {/* Navigation */}
-          <div className={styles.navBtns}>
-            <button
-              className={styles.navBtn}
-              onClick={prev}
-              aria-label="Previous project"
+          {/* Floating Glass Bottom Nav */}
+          {works.length > 0 && activeWork && (
+            <motion.div 
+              className={styles.bottomNavContainer}
+              initial={{ y: 50, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.5, duration: 0.8 }}
             >
-              <FiArrowLeft />
-            </button>
+              <div className={styles.glassNav}>
+                <button className={styles.navBtnSmall} onClick={prev}><FiArrowLeft /></button>
+                
+                <div className={styles.navThumbWrapper}>
+                  {activeWork.image ? (
+                    <img src={getDriveDirectLink(activeWork.image)} alt="thumb" className={styles.navThumb} />
+                  ) : (
+                    <div className={styles.navThumbFallback} style={{ background: activeWork.accent }} />
+                  )}
+                  <div className={styles.navThumbText}>
+                    <div className={styles.navThumbTitle}>{activeWork.title}</div>
+                    <div className={styles.navThumbSub}>{activeWork.type}</div>
+                  </div>
+                </div>
 
-            {/* Dot indicators */}
-            <div className={styles.dots}>
-              {works.map((_, i) => (
-                <button
-                  key={i}
-                  className={`${styles.dot} ${i === activeIndex ? styles.dotActive : ''}`}
-                  onClick={() => handleManualInteraction(i)}
-                  aria-label={`Go to project ${i + 1}`}
-                />
-              ))}
-            </div>
-
-            <button
-              className={styles.navBtn}
-              onClick={next}
-              aria-label="Next project"
-            >
-              <FiArrowRight />
-            </button>
-
-            {/* Auto-scroll progress ring */}
-            <div className={styles.progressRing} title={isPaused ? 'Paused — resumes automatically' : 'Auto-scrolling'}>
-              <svg width="32" height="32" viewBox="0 0 32 32">
-                <circle cx="16" cy="16" r="13" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="2" />
-                <circle
-                  cx="16" cy="16" r="13"
-                  fill="none"
-                  stroke={isPaused ? 'rgba(170,255,0,0.3)' : 'var(--neon)'}
-                  strokeWidth="2"
-                  strokeDasharray={`${2 * Math.PI * 13}`}
-                  strokeDashoffset={`${2 * Math.PI * 13 * (1 - progress / 100)}`}
-                  strokeLinecap="round"
-                  transform="rotate(-90 16 16)"
-                  style={{ transition: 'stroke-dashoffset 0.05s linear, stroke 0.3s ease' }}
-                />
-              </svg>
-              <span className={styles.progressIcon}>{isPaused ? '⏸' : '▶'}</span>
-            </div>
-          </div>
+                <button className={styles.navBtnSmall} onClick={next}><FiArrowRight /></button>
+              </div>
+              
+              {/* Dots */}
+              <div className={styles.dots}>
+                {works.map((_, i) => (
+                  <button
+                    key={i}
+                    className={`${styles.dot} ${i === activeIndex ? styles.dotActive : ''}`}
+                    onClick={() => handleManualInteraction(i)}
+                  />
+                ))}
+              </div>
+            </motion.div>
+          )}
         </motion.div>
       </div>
     </section>
   );
 }
 
-
-// Pattern SVG components for card backgrounds
 function PatternSvg({ type, accent }: { type: string; accent: string }) {
   const color = accent + '20';
   const strokeColor = accent + '30';
