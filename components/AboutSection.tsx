@@ -4,6 +4,7 @@ import { motion, useScroll, useMotionValueEvent, AnimatePresence } from 'framer-
 import styles from './AboutSection.module.css';
 import { useTools } from '@/hooks/useTools';
 
+
 /* ─── Balloon positions for up to 4 tools ──────────────────── */
 const BALLOON_POS = [
   { x: -130, y: -90 },
