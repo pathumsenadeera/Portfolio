@@ -1,7 +1,7 @@
 'use client';
 import { AnimatePresence, motion, Variants } from 'framer-motion';
 import Image from 'next/image';
-import portraitPic from '@/public/images/portraits_me.svg';
+import portraitPic from '@/public/images/pathum-portait.svg';
 import { useEffect, useState } from 'react';
 import { FiArrowRight, FiInstagram, FiLinkedin, FiPenTool, FiGithub, FiFacebook } from 'react-icons/fi';
 import { SiBehance } from 'react-icons/si';
