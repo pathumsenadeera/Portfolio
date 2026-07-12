@@ -118,7 +118,7 @@ export default function PortfolioSection() {
         >
           <div className={styles.sectionTag}>Selected Work</div>
           <h2 className={styles.heading}>
-            Showcase My <span className={styles.headingAccent}>Creative Work</span>
+            <span className={styles.headingAccent}>Creative Work</span>
           </h2>
         </motion.div>
 
