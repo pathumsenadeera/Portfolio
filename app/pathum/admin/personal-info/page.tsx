@@ -45,7 +45,7 @@ export default function PersonalInfoAdminPage() {
   };
 
   useEffect(() => {
-    fetchInfo();
+    queueMicrotask(() => { fetchInfo(); });
   }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -113,7 +113,7 @@ export default function PersonalInfoAdminPage() {
                 <input 
                   type="url" 
                   name={platform}
-                  value={(formData as any)[platform]}
+                  value={(formData as Record<string, string>)[platform]}
                   onChange={handleChange}
                   placeholder={`https://${platform.toLowerCase()}.com/...`}
                   style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border)', padding: '12px', color: 'var(--white)', borderRadius: '8px' }}

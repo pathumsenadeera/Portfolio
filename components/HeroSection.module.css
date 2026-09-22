@@ -446,60 +446,118 @@
 
 /* ─── RESPONSIVE ─── */
 @media (max-width: 1024px) {
+  /* Allow hero to grow beyond viewport on mobile so content isn't clipped */
+  .hero {
+    height: auto;
+    min-height: 100vh;
+    max-height: none;
+  }
+
   .content {
     grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    height: auto;
   }
+
+  /* Portrait comes first, text comes second */
   .leftCol {
-    padding: 130px 32px 40px;
+    order: 2;
+    /* Only clear the navbar (~70px), no extra whitespace */
+    padding: 24px 32px 56px;
+    justify-content: flex-start;
   }
+
   .rightCol {
-    height: 70vh;
+    order: 1;
+    /* Navbar height offset at top */
+    padding-top: 70px;
+    height: auto;
+    overflow: hidden;
   }
-  .cubeContainer {
-    width: 180px;
-    height: 180px;
-    bottom: 40px;
-    right: -20px;
+
+  /* Portrait fills a natural height — no fixed vh clipping */
+  .portraitWrap {
+    width: 100%;
+    height: 50vw;
+    min-height: 280px;
+    max-height: 460px;
+    overflow: hidden;
   }
-  .nameBar {
-    flex-direction: column;
-    gap: 16px;
-    padding: 20px 32px;
-    align-items: flex-start;
+
+  /* Reduce the aggressive scale so image fits inside bounds */
+  .portraitImg {
+    transform: scale(1.05) translateY(4%);
   }
+
+  /* Name bar sits snugly below portrait */
+  .portraitNameBar {
+    padding-left: 32px;
+    margin-top: 12px;
+  }
+
   .floatLabel2 {
     display: none;
   }
 }
 
 @media (max-width: 600px) {
+  .hero {
+    height: auto;
+    min-height: 100svh;
+    max-height: none;
+  }
+
   .leftCol {
-    padding: 120px 20px 30px;
+    padding: 20px 20px 48px;
   }
+
+  .rightCol {
+    padding-top: 64px;
+  }
+
+  .portraitWrap {
+    height: 60vw;
+    min-height: 240px;
+    max-height: 360px;
+    overflow: hidden;
+  }
+
+  .portraitImg {
+    transform: scale(1.0) translateY(2%);
+  }
+
+  .portraitNameBar {
+    padding-left: 20px;
+    margin-top: 8px;
+  }
+
   .title {
-    font-size: 48px;
+    font-size: 44px;
   }
+
+  .subtitle {
+    font-size: 13px;
+  }
+
   .ctas {
     flex-direction: column;
     align-items: flex-start;
   }
-  .cubeContainer {
-    width: 140px;
-    height: 140px;
-    bottom: 20px;
-    right: 0;
+
+  .nameTitle {
+    font-size: clamp(18px, 5vw, 28px);
   }
-  .nameBar {
-    padding: 16px 20px;
-  }
-  .nameTitle,
+
   .nameSubtitle {
-    font-size: 32px;
+    font-size: clamp(22px, 6vw, 34px);
   }
-  .nameSeparator {
-    height: 24px;
+
+  .nameRole {
+    font-size: 10px;
+    letter-spacing: 4px;
   }
-  .statsRow {
-    gap: 20px;
+
+  .socials {
+    flex-wrap: wrap;
   }
 }

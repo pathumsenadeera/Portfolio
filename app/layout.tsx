@@ -45,6 +45,7 @@ export const metadata: Metadata = {
 import SmoothScroll from "@/components/SmoothScroll";
 import ScrollProgress from "@/components/ScrollProgress";
 import Cursor from "@/components/Cursor";
+import Preloader from "@/components/Preloader";
 
 export default function RootLayout({
   children,
@@ -54,6 +55,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body suppressHydrationWarning>
+        <Preloader />
         <ScrollProgress />
         <SmoothScroll />
         <Cursor />
@@ -63,3 +65,4 @@ export default function RootLayout({
     </html>
   );
 }
+

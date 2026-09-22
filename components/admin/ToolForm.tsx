@@ -48,7 +48,7 @@ export default function ToolForm({ onSuccess }: { onSuccess?: () => void }) {
   };
 
   useEffect(() => {
-    fetchCategoryTools(category);
+    queueMicrotask(() => { fetchCategoryTools(category); });
   }, [category]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -103,7 +103,7 @@ export default function ToolForm({ onSuccess }: { onSuccess?: () => void }) {
               <input 
                 type="text" 
                 name={`Tool_${num}`}
-                value={(formData as any)[`Tool_${num}`]}
+                value={(formData as Record<string, string>)[`Tool_${num}`]}
                 onChange={handleChange}
                 placeholder={`e.g. Next.js, Figma...`}
                 style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border)', padding: '12px', color: 'var(--white)', borderRadius: '8px' }}
