@@ -33,7 +33,7 @@ export default function CTABanner() {
             <span className="neon-text neon-glow">IN MIND?</span>
           </h2>
           <p className={styles.sub}>
-            I'm currently taking on new clients. Let's create something bold, beautiful, and built to last.
+            I&apos;m currently taking on new clients. Let&apos;s create something bold, beautiful, and built to last.
           </p>
           <div className={styles.actions}>
             <a href="#contact" className="btn-primary">

@@ -2,6 +2,7 @@
 import { motion } from 'framer-motion';
 import { FiInstagram, FiLinkedin, FiArrowUp, FiGithub, FiFacebook } from 'react-icons/fi';
 import { SiBehance } from 'react-icons/si';
+import Image from 'next/image';
 import styles from './Footer.module.css';
 import { usePersonalInfo } from '@/hooks/usePersonalInfo';
 
@@ -15,7 +16,13 @@ export default function Footer() {
         <div className={styles.container}>
           <div className={styles.brand}>
             <div className={styles.logo}>
-              <span className={styles.logoMark}>P</span>
+              <Image
+                src="/images/logo.png"
+                alt="Pathum Senadeera Logo"
+                width={36}
+                height={36}
+                className={styles.logoImg}
+              />
               <span className={styles.logoText}>PATHUM</span>
             </div>
             <p className={styles.tagline}>

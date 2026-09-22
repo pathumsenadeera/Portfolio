@@ -6,8 +6,10 @@ import { collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
 import ProjectForm from '@/components/admin/ProjectForm';
 import { FiTrash2 } from 'react-icons/fi';
 
+interface Project { id: string; [key: string]: unknown; }
+
 export default function ProjectsAdminPage() {
-  const [projects, setProjects] = useState<any[]>([]);
+  const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
 
   const fetchProjects = async () => {
@@ -27,7 +29,7 @@ export default function ProjectsAdminPage() {
   };
 
   useEffect(() => {
-    fetchProjects();
+    queueMicrotask(() => { fetchProjects(); });
   }, []);
 
   const handleDelete = async (id: string) => {
@@ -71,7 +73,7 @@ export default function ProjectsAdminPage() {
                 <div key={project.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px', background: 'var(--bg-secondary)', borderRadius: '8px', border: '1px solid var(--border)' }}>
                   <div>
                     <h4 style={{ color: 'var(--white)', fontSize: '18px', marginBottom: '4px' }}>{project.id}</h4>
-                    <span style={{ color: 'var(--neon)', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '1px' }}>{project.type}</span>
+                    <span style={{ color: 'var(--neon)', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '1px' }}>{String(project.type ?? '')}</span>
                   </div>
                   <button 
                     onClick={() => handleDelete(project.id)}

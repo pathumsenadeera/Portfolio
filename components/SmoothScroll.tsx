@@ -14,7 +14,7 @@ export default function SmoothScroll() {
       smoothTouch: false,
       touchMultiplier: 2,
       infinite: false,
-    } as any);
+    } as ConstructorParameters<typeof Lenis>[0]);
 
     function raf(time: number) {
       lenis.raf(time);

@@ -1,14 +1,16 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
 import styles from './Navbar.module.css';
 
 const navLinks = [
-  { label: 'Work',         href: '#work' },
-  { label: 'About',        href: '#about' },
-  { label: 'Services',     href: '#services' },
-  { label: 'Process',      href: '#process' },
-  { label: 'Contact',      href: '#contact' },
+  { href: '#home', label: 'Home' },
+  { href: '#about', label: 'About' },
+  { href: '#work', label: 'Work' },
+  { href: '#services', label: 'Services' },
+  { href: '#process', label: 'Process' },
+  { href: '#contact', label: 'Contact' },
 ];
 
 export default function Navbar() {
@@ -31,7 +33,14 @@ export default function Navbar() {
       >
         <div className={styles.inner}>
           <a href="#" className={styles.logo}>
-            <span className={styles.logoMark}>P</span>
+            <Image
+              src="/images/logo.png"
+              alt="Pathum Senadeera Logo"
+              width={36}
+              height={36}
+              className={styles.logoImg}
+              priority
+            />
             <span className={styles.logoText}>PATHUM</span>
           </a>
 

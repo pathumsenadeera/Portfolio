@@ -6,14 +6,14 @@ import { collection, getDocs } from 'firebase/firestore';
 import ToolForm from '@/components/admin/ToolForm';
 
 export default function ToolsAdminPage() {
-  const [toolsMap, setToolsMap] = useState<any>({});
+  const [toolsMap, setToolsMap] = useState<Record<string, Record<string, unknown>>>({});
   const [loading, setLoading] = useState(true);
 
   const fetchTools = async () => {
     setLoading(true);
     try {
       const querySnapshot = await getDocs(collection(db, 'Tools and Software'));
-      const data: any = {};
+      const data: Record<string, Record<string, unknown>> = {};
       querySnapshot.forEach(doc => {
         data[doc.id] = doc.data();
       });
@@ -26,7 +26,7 @@ export default function ToolsAdminPage() {
   };
 
   useEffect(() => {
-    fetchTools();
+    queueMicrotask(() => { fetchTools(); });
   }, []);
 
   return (
@@ -70,7 +70,7 @@ export default function ToolsAdminPage() {
                     <ul style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', listStyle: 'none' }}>
                       {tools.map((tool, i) => (
                         <li key={i} style={{ background: 'var(--bg-primary)', padding: '8px 16px', borderRadius: '20px', fontSize: '14px', border: '1px solid var(--border)' }}>
-                          {tool}
+                          {String(tool ?? '')}
                         </li>
                       ))}
                     </ul>

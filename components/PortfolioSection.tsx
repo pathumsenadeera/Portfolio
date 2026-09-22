@@ -87,6 +87,7 @@ export default function PortfolioSection() {
     }, PAUSE_AFTER_MANUAL);
   }, [clearAllTimers]);
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { setMounted(true); }, []);
 
   useEffect(() => {
